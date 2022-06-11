@@ -1,10 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Landing from "./pages/landing"
 
 function App() {
-  return (
-     <h1>hi</h1>
-  );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Landing />} />
+			</Routes>
+		</BrowserRouter>
+	)
 }
 
-export default App;
+export default App
