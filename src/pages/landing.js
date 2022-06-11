@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react"
+import UserNavBar from "../components/userNavbar"
+import GuestNavBar from "../components/guestNavbar"
 
 function Landing() {
-  return (
-    <div>landing</div>
-  )
+	return (
+		<>
+			<GuestNavBar />
+            <UserNavBar />
+		</>
+	)
 }
 
 export default Landing
