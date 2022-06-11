@@ -1,14 +1,34 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Landing from "./pages/landing"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useSelector } from "react-redux"
+
+const light = {
+	palette: {
+		mode: "light",
+	},
+}
+
+const dark = {
+	palette: {
+		mode: "dark",
+	},
+}
 
 function App() {
+	const appState = useSelector((state) => state.app)
+  // console.log(appState)
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Landing />} />
-			</Routes>
-		</BrowserRouter>
+		<ThemeProvider
+			theme={appState.darkTheme ? createTheme(dark) : createTheme(light)}
+		>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Landing />} />
+				</Routes>
+			</BrowserRouter>
+		</ThemeProvider>
 	)
 }
 
