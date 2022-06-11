@@ -6,11 +6,17 @@ import Typography from "@mui/material/Typography"
 import IconButton from "@mui/material/IconButton"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded"
+import { Button } from "@mui/material"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import {setTheme} from '../redux/appSlice'
 
 export default function UserNavBar() {
+	const dispatch = useDispatch()
+	const appState = useSelector((state) => state.app)
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static">
+			<AppBar position="absolute">
 				<Toolbar>
 					<IconButton
 						size="large"
@@ -34,6 +40,40 @@ export default function UserNavBar() {
 						sx={{ flexGrow: 1, textAlign: "center" }}
 					>
 						TicTacToe
+					</Typography>
+					{appState.darkTheme ? (
+						<Button
+							variant="contained"
+							sx={{
+								backgroundColor: "white",
+								color: "black",
+								mr: 1,
+								fontSize: 10,
+							}}
+							onClick={() => {
+								dispatch(setTheme(false))
+							}}
+						>
+							Light
+						</Button>
+					) : (
+						<Button
+							variant="contained"
+							sx={{ backgroundColor: "black", mr: 1, fontSize: 10 }}
+							onClick={() => {
+								dispatch(setTheme(true))
+							}}
+						>
+							Dark
+						</Button>
+					)}
+
+					<Typography
+						variant="p"
+						component="div"
+						display={{ xs: "none", sm: "block" }}
+					>
+						1000 Tics
 					</Typography>
 					<IconButton
 						size="large"
