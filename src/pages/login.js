@@ -9,8 +9,11 @@ import GoogleIcon from "@mui/icons-material/Google"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Navbar from "../components/navbar"
+import { useNavigate } from "react-router-dom"
 
 function Login() {
+    const navigate = useNavigate()
+
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const data = new FormData(event.currentTarget)
@@ -77,7 +80,6 @@ function Login() {
 							fullWidth
 							variant="contained"
 							sx={{
-								mt: 3,
 								mb: 2,
 								backgroundColor: "White",
 								color: "#750000",
@@ -89,6 +91,25 @@ function Login() {
 						>
 							<GoogleIcon />
 							oogle Login
+						</Button>
+						<Button
+							fullWidth
+							variant="contained"
+							sx={{
+								mt: 3,
+								mb: 2,
+								backgroundColor: "White",
+								color: "#272727",
+								":hover": {
+									bgcolor: "#272727",
+									color: "white",
+								},
+							}}
+                            onClick={() => {
+                                navigate("/signup")
+                            }}
+						>
+							Sign Up
 						</Button>
 					</Box>
 				</Box>
