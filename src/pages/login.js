@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -10,19 +10,33 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Navbar from "../components/navbar"
 import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import axios from "../axios"
 
 function Login() {
     const navigate = useNavigate()
-
-	const handleSubmit = (event) => {
-		event.preventDefault()
-		const data = new FormData(event.currentTarget)
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		})
+	const [data, setData] = useState({
+		userName: "",
+		password: "",
+	})
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm()
+	const handleChange = ({currentTarget:input}) => {
+		setData({...data,[input.name]:input.value})
+		reset(data)
 	}
-
+	const onSubmit = async ()=>{
+		try{
+		const res = await axios.post("users/login", data)
+		console.log(res.data)
+		}catch(err){
+			console.log(err.message)
+		}
+	}
 	return (
 		<>
 			<Navbar />
@@ -44,21 +58,40 @@ function Login() {
 					</Typography>
 					<Box
 						component="form"
-						onSubmit={handleSubmit}
+						onSubmit={handleSubmit(onSubmit)}
 						noValidate
 						sx={{ mt: 1 }}
 					>
 						<TextField
+							{...register("userName", {
+								required: "Provide userName!",
+								minLength: {
+									value: 6,
+									message: "Atleast 6 characters required",
+								},
+							})}
 							margin="normal"
 							required
 							fullWidth
-							id="email"
-							label="Email Address"
-							name="email"
-							autoComplete="email"
+							id="userName"
+							label="UserName"
+							name="userName"
 							autoFocus
+							onChange={handleChange}
+							value={data.userName}
+							error={errors.userName ? true : false}
+							helperText={
+								errors.userName ? errors.userName.message : null
+							}
 						/>
 						<TextField
+							{...register("password", {
+								required: "Provide password!",
+								minLength: {
+									value: 6,
+									message: "Atleast 6 characters required",
+								},
+							})}
 							margin="normal"
 							required
 							fullWidth
@@ -66,7 +99,12 @@ function Login() {
 							label="Password"
 							type="password"
 							id="password"
-							autoComplete="current-password"
+							onChange={handleChange}
+							value={data.password}
+							error={errors.password ? true : false}
+							helperText={
+								errors.password ? errors.password.message : null
+							}
 						/>
 						<Button
 							type="submit"
@@ -105,9 +143,9 @@ function Login() {
 									color: "white",
 								},
 							}}
-                            onClick={() => {
-                                navigate("/signup")
-                            }}
+							onClick={() => {
+								navigate("/signup")
+							}}
 						>
 							Sign Up
 						</Button>
