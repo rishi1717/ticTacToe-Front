@@ -1,12 +1,11 @@
 import React from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
-import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import Link from "@mui/material/Link"
 import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box"
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
+import HowToRegIcon from "@mui/icons-material/HowToReg"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Navbar from "../components/navbar"
@@ -25,17 +24,17 @@ function Signup() {
 			<Navbar />
 
 			<Container component="main" maxWidth="xs">
-				<CssBaseline />
 				<Box
 					sx={{
 						marginTop: 8,
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
+						mb: 5,
 					}}
 				>
 					<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-						<LockOutlinedIcon />
+						<HowToRegIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
 						Sign up
