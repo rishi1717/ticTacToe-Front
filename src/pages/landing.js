@@ -1,19 +1,18 @@
 import React from "react"
-import UserNavBar from "../components/userNavbar"
-import GuestNavBar from "../components/guestNavbar"
 import { Grid, Paper } from "@mui/material"
+import Navbar from "../components/navbar"
 
 function Landing() {
 	return (
 		<>
-			{true ? <UserNavBar /> : <GuestNavBar />}
+			<Navbar />
 			<Grid
 				container
 				spacing={0}
 				direction="column"
 				alignItems="center"
 				justifyContent="center"
-				style={{ minHeight: "100vh" }}
+				sx={{ minHeight: "60vh"}}
 			>
 				<Grid item xs={3}>
 					<Paper

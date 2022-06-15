@@ -6,8 +6,10 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
+import { useNavigate } from "react-router-dom"
 
 export default function GuestNavBar() {
+	const navigate = useNavigate()
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -31,7 +33,9 @@ export default function GuestNavBar() {
 					>
 						TicTacToe
 					</Typography>
-					<Button>Login</Button>
+					<Button onClick={()=>{
+						navigate('/login')
+					}}>Login</Button>
 				</Toolbar>
 			</AppBar>
 		</Box>

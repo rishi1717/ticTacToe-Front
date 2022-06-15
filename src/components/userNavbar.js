@@ -15,8 +15,8 @@ export default function UserNavBar() {
 	const dispatch = useDispatch()
 	const appState = useSelector((state) => state.app)
 	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="absolute">
+		<Box sx={{ flexGrow: 1, }}>
+			<AppBar position="static">
 				<Toolbar>
 					<IconButton
 						size="large"
