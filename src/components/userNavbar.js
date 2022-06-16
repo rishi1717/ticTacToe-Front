@@ -10,8 +10,11 @@ import { Button } from "@mui/material"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { setTheme } from "../redux/appSlice"
+import { deleteUser } from "../redux/userSlice"
+import { useNavigate } from "react-router-dom"
 
 export default function UserNavBar() {
+	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const appState = useSelector((state) => state.app)
 	return (
@@ -41,6 +44,8 @@ export default function UserNavBar() {
 					>
 						TicTacToe
 					</Typography>
+					
+					{/* ///////////////////////////////////////////////////////////////////////////////////////////////// */}
 					{appState.darkTheme ? (
 						<Button
 							variant="contained"
@@ -67,7 +72,22 @@ export default function UserNavBar() {
 							Dark
 						</Button>
 					)}
-
+					<Button
+						variant="contained"
+						sx={{
+							backgroundColor: "white",
+							color: "black",
+							mr: 1,
+							fontSize: 10,
+						}}
+						onClick={() => {
+							dispatch(deleteUser())
+							navigate("/")
+						}}
+					>
+						Logout
+					</Button>
+					{/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
 					<Typography
 						variant="p"
 						component="div"

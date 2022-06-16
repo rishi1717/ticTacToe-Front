@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -12,12 +12,18 @@ import Navbar from "../components/navbar"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import axios from "../axios"
-import {useDispatch} from 'react-redux'
-import {setUser} from '../redux/userSlice'
+import { useDispatch, useSelector } from "react-redux"
+import { setUser } from "../redux/userSlice"
 
 function Login() {
-    const navigate = useNavigate()
+	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const user = useSelector((state) => state.user.user)
+	useEffect(() => {
+		if (user.token) {
+			navigate("/")
+		}
+	},[])
 	const [data, setData] = useState({
 		userName: "",
 		password: "",
@@ -28,16 +34,16 @@ function Login() {
 		reset,
 		formState: { errors },
 	} = useForm()
-	const handleChange = ({currentTarget:input}) => {
-		setData({...data,[input.name]:input.value})
+	const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value })
 		reset(data)
 	}
-	const onSubmit = async ()=>{
-		try{
-		const res = await axios.post("users/login", data)
-		console.log(res.data)
-		dispatch(setUser(res.data.user))
-		}catch(err){
+	const onSubmit = async () => {
+		try {
+			const res = await axios.post("users/login", data)
+			dispatch(setUser(res.data.user))
+			navigate("/")
+		} catch (err) {
 			console.log(err.message)
 		}
 	}

@@ -33,8 +33,8 @@ function Signup() {
 	}
 	const onSubmit = async ()=>{
 		try{
-		const res = await axios.post("users", data)
-		console.log(res.data)
+		await axios.post("users", data)
+		navigate("/login")
 		}
 		catch(err){
 			console.log(err.message)
