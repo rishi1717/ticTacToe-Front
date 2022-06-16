@@ -9,13 +9,13 @@ import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceW
 import { Button } from "@mui/material"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
-import {setTheme} from '../redux/appSlice'
+import { setTheme } from "../redux/appSlice"
 
 export default function UserNavBar() {
 	const dispatch = useDispatch()
 	const appState = useSelector((state) => state.app)
 	return (
-		<Box sx={{ flexGrow: 1, }}>
+		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar>
 					<IconButton

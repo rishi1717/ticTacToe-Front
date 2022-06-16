@@ -12,9 +12,12 @@ import Navbar from "../components/navbar"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import axios from "../axios"
+import {useDispatch} from 'react-redux'
+import {setUser} from '../redux/userSlice'
 
 function Login() {
     const navigate = useNavigate()
+	const dispatch = useDispatch()
 	const [data, setData] = useState({
 		userName: "",
 		password: "",
@@ -33,6 +36,7 @@ function Login() {
 		try{
 		const res = await axios.post("users/login", data)
 		console.log(res.data)
+		dispatch(setUser(res.data.user))
 		}catch(err){
 			console.log(err.message)
 		}

@@ -14,6 +14,7 @@ import {
 import storage from "reduxjs-toolkit-persist/lib/storage"
 import autoMergeLevel1 from "reduxjs-toolkit-persist/lib/stateReconciler/autoMergeLevel1"
 import appReducer from "./appSlice"
+import userReducer from "./userSlice"
 
 const persistConfig = {
 	key: "root",
@@ -23,6 +24,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
 	app: appReducer,
+	user: userReducer,
 })
 
 const _persistedReducer = persistReducer(persistConfig, reducers)
