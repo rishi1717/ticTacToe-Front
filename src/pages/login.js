@@ -14,6 +14,9 @@ import { useForm } from "react-hook-form"
 import axios from "../axios"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../redux/userSlice"
+import GoogleLogin from "react-google-login"
+import dotenv from "dotenv"
+dotenv.config()
 
 function Login() {
 	const navigate = useNavigate()
@@ -44,6 +47,17 @@ function Login() {
 			dispatch(setUser(res.data.user))
 			navigate("/")
 		} catch (err) {
+			console.log(err.message)
+		}
+	}
+
+	const onSuccess = async (response) => {
+		try{
+			const result = await axios.post("googleAuth", {
+				token: response.tokenId,
+			})
+			dispatch(setUser(result.data.user))
+		}catch(err){
 			console.log(err.message)
 		}
 	}
@@ -140,6 +154,11 @@ function Login() {
 							<GoogleIcon />
 							oogle Login
 						</Button>
+						{console.log(`${process.env.REACT_APP_CLIENT_ID}`)}
+						<GoogleLogin
+							clientId={`${process.env.REACT_APP_CLIENT_ID}`}
+							onSuccess={onSuccess}
+						/>
 						<Button
 							fullWidth
 							variant="contained"
