@@ -27,6 +27,7 @@ export default function UserNavBar() {
 						color="inherit"
 						aria-label="menu"
 						sx={{ mr: 2 }}
+						onClick={() => navigate("/profile")}
 					>
 						<AccountCircleRoundedIcon />
 					</IconButton>

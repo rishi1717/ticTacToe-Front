@@ -20,10 +20,15 @@ export default function GuestNavBar() {
 						color="inherit"
 						aria-label="menu"
 						sx={{ mr: 2 }}
+						onClick={() => navigate("/profile")}
 					>
 						<AccountCircleRoundedIcon />
 					</IconButton>
-					<Typography variant="p" component="div" display={{xs:'none',sm:'block'}}>
+					<Typography
+						variant="p"
+						component="div"
+						display={{ xs: "none", sm: "block" }}
+					>
 						Guestid
 					</Typography>
 					<Typography
@@ -33,9 +38,13 @@ export default function GuestNavBar() {
 					>
 						TicTacToe
 					</Typography>
-					<Button onClick={()=>{
-						navigate('/login')
-					}}>Login</Button>
+					<Button
+						onClick={() => {
+							navigate("/login")
+						}}
+					>
+						Login
+					</Button>
 				</Toolbar>
 			</AppBar>
 		</Box>

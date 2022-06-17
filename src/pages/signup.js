@@ -46,11 +46,11 @@ function Signup() {
 			<Container component="main" maxWidth="xs">
 				<Box
 					sx={{
-						marginTop: 8,
+						marginTop: 3,
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
-						mb: 5,
+						mb: 2,
 					}}
 				>
 					<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
