@@ -15,10 +15,21 @@ import axios from "../axios"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../redux/userSlice"
 import GoogleLogin from "react-google-login"
+import {gapi} from "gapi-script"
 import dotenv from "dotenv"
 dotenv.config()
 
 function Login() {
+	useEffect(() => {
+		function start() {
+			gapi.client.init({
+				clientId: process.env.REACT_APP_CLIENT_ID,
+				scope: "email",
+			})
+		}
+
+		gapi.load("client:auth2", start)
+	}, [])
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.user.user)
@@ -26,7 +37,7 @@ function Login() {
 		if (user.token) {
 			navigate("/")
 		}
-	},[])
+	}, [])
 	const [data, setData] = useState({
 		userName: "",
 		password: "",
@@ -51,13 +62,17 @@ function Login() {
 		}
 	}
 
+	const onFailure = (err) => {
+		console.log(err)
+	}
 	const onSuccess = async (response) => {
-		try{
+		try {
+			console.log(response.profileObj)
 			const result = await axios.post("googleAuth", {
 				token: response.tokenId,
 			})
-			dispatch(setUser(result.data.user))
-		}catch(err){
+			console.log(result.data.user)
+		} catch (err) {
 			console.log(err.message)
 		}
 	}
@@ -154,10 +169,10 @@ function Login() {
 							<GoogleIcon />
 							oogle Login
 						</Button>
-						{console.log(`${process.env.REACT_APP_CLIENT_ID}`)}
 						<GoogleLogin
 							clientId={`${process.env.REACT_APP_CLIENT_ID}`}
 							onSuccess={onSuccess}
+							onFailure={onFailure}
 						/>
 						<Button
 							fullWidth
