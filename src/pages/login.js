@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/material/Box"
 import InputIcon from "@mui/icons-material/Input"
-import GoogleIcon from "@mui/icons-material/Google"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import Navbar from "../components/navbar"
@@ -15,7 +14,7 @@ import axios from "../axios"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../redux/userSlice"
 import GoogleLogin from "react-google-login"
-import {gapi} from "gapi-script"
+import { gapi } from "gapi-script"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -67,11 +66,11 @@ function Login() {
 	}
 	const onSuccess = async (response) => {
 		try {
-			console.log(response.profileObj)
 			const result = await axios.post("googleAuth", {
 				token: response.tokenId,
 			})
-			console.log(result.data.user)
+			dispatch(setUser(result.data.user))
+			navigate("/")
 		} catch (err) {
 			console.log(err.message)
 		}
@@ -159,28 +158,6 @@ function Login() {
 							sx={{
 								mb: 2,
 								backgroundColor: "White",
-								color: "#750000",
-								":hover": {
-									bgcolor: "#750000",
-									color: "white",
-								},
-							}}
-						>
-							<GoogleIcon />
-							oogle Login
-						</Button>
-						<GoogleLogin
-							clientId={`${process.env.REACT_APP_CLIENT_ID}`}
-							onSuccess={onSuccess}
-							onFailure={onFailure}
-						/>
-						<Button
-							fullWidth
-							variant="contained"
-							sx={{
-								mt: 3,
-								mb: 2,
-								backgroundColor: "White",
 								color: "#272727",
 								":hover": {
 									bgcolor: "#272727",
@@ -193,6 +170,20 @@ function Login() {
 						>
 							Sign Up
 						</Button>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								mt: 2,
+							}}
+						>
+							<GoogleLogin
+								clientId={`${process.env.REACT_APP_CLIENT_ID}`}
+								onSuccess={onSuccess}
+								onFailure={onFailure}
+							/>
+						</Box>
 					</Box>
 				</Box>
 			</Container>
