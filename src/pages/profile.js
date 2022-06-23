@@ -22,10 +22,11 @@ function Profile() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const appState = useSelector((state) => state.app)
+	const user = useSelector((state) => state.user.user)
 	return (
 		<>
 			<Navbar />
-			<Container>
+			<Container sx={{ mb: 4 }}>
 				<Grid
 					container
 					spacing={0}
@@ -45,6 +46,7 @@ function Profile() {
 						<Card
 							elevation={10}
 							sx={{
+								maxHeight: 200,
 								mt: 3,
 								display: "flex",
 								flexDirection: { xs: "row", sm: "row" },
@@ -120,6 +122,8 @@ function Profile() {
 						<Card
 							elevation={10}
 							sx={{
+								maxHeight: 200,
+								maxWidth: { xs: 250, sm: 500 },
 								mt: { xs: 0, sm: 3 },
 								display: "flex",
 								flexDirection: { xs: "row", sm: "row" },
@@ -142,8 +146,8 @@ function Profile() {
 									component="img"
 									sx={{
 										margin: "0.4rem",
-										maxWidth: { xs: 80, sm: 150 },
-										maxHeight: { xs: 80, sm: 150 },
+										maxWidth: { xs: 80, sm: 130 },
+										maxHeight: { xs: 80, sm: 130 },
 									}}
 									src={walletIcon}
 								/>
@@ -168,28 +172,60 @@ function Profile() {
 									<b>Wallet</b>
 								</Typography>
 
-								<Typography
-									sx={{
-										fontSize: {
-											xs: "0.8rem",
-											sm: "1.2rem",
-										},
-										fontFamily: "monospace",
-									}}
-								>
-									<b>1000 TCoins</b>
-								</Typography>
-								<Button
-									variant="containied"
-									sx={{
-										mt: 2,
-										backgroundColor: "#4EADFE",
-										color: "white",
-										fontSize: { xs: "0.5rem", sm: "0.8rem" },
-									}}
-								>
-									View Wallet
-								</Button>
+								{user.token ? (
+									<>
+										<Typography
+											sx={{
+												fontSize: {
+													xs: "0.8rem",
+													sm: "1.2rem",
+												},
+												fontFamily: "monospace",
+											}}
+										>
+											<b>1000 TCoins</b>
+										</Typography>
+										<Button
+											variant="containied"
+											sx={{
+												mt: 2,
+												backgroundColor: "#4EADFE",
+												color: "white",
+												fontSize: { xs: "0.5rem", sm: "0.8rem" },
+											}}
+										>
+											View Wallet
+										</Button>
+									</>
+								) : (
+									<>
+										<Typography
+											sx={{
+												fontSize: {
+													xs: "0.8rem",
+													sm: "1.2rem",
+												},
+												fontFamily: "monospace",
+											}}
+										>
+											<b>Login to access Wallet</b>
+										</Typography>
+										<Button
+											variant="containied"
+											sx={{
+												mt: 2,
+												backgroundColor: "#4EADFE",
+												color: "white",
+												fontSize: { xs: "0.5rem", sm: "0.8rem" },
+											}}
+											onClick={() => {
+												navigate("/login")
+											}}
+										>
+											Login
+										</Button>
+									</>
+								)}
 							</CardContent>
 						</Card>
 					</Grid>
@@ -199,7 +235,7 @@ function Profile() {
 					sx={{
 						m: "auto",
 						mt: { xs: 3, sm: 5 },
-						width: "80%",
+						maxWidth: { xs: 250, sm: 1000 },
 					}}
 				>
 					<Grid
@@ -221,6 +257,7 @@ function Profile() {
 							}}
 						>
 							<Paper
+								elevation={10}
 								sx={{
 									padding: 3,
 									display: "flex",
@@ -250,6 +287,7 @@ function Profile() {
 							}}
 						>
 							<Paper
+								elevation={10}
 								sx={{
 									padding: 3,
 									display: "flex",
@@ -279,6 +317,7 @@ function Profile() {
 							}}
 						>
 							<Paper
+								elevation={10}
 								sx={{
 									padding: 3,
 									display: "flex",
@@ -308,6 +347,7 @@ function Profile() {
 							}}
 						>
 							<Paper
+								elevation={10}
 								sx={{
 									padding: 3,
 									display: "flex",
@@ -338,12 +378,7 @@ function Profile() {
 						mt: 5,
 					}}
 				>
-					<Grid
-						item
-						alignItems="center"
-						display="flex"
-						justify="center"
-					>
+					<Grid item alignItems="center" display="flex" justify="center">
 						{appState.darkTheme ? (
 							<Button
 								variant="contained"
@@ -371,20 +406,10 @@ function Profile() {
 							</Button>
 						)}
 					</Grid>
-					<Grid
-						item
-						alignItems="center"
-						display="flex"
-						justify="center"
-					>
+					<Grid item alignItems="center" display="flex" justify="center">
 						<Button>Edit Profile</Button>
 					</Grid>
-					<Grid
-						item
-						alignItems="center"
-						display="flex"
-						justify="center"
-					>
+					<Grid item alignItems="center" display="flex" justify="center">
 						<Button
 							variant="contained"
 							sx={{
