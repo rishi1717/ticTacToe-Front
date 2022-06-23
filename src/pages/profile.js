@@ -192,6 +192,12 @@ function Profile() {
 												backgroundColor: "#4EADFE",
 												color: "white",
 												fontSize: { xs: "0.5rem", sm: "0.8rem" },
+												"&:hover": {
+													color: "#4EADFE",
+												},
+											}}
+											onClick={() => {
+												navigate("/wallet")
 											}}
 										>
 											View Wallet

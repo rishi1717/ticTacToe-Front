@@ -7,6 +7,7 @@ import { CssBaseline } from "@mui/material"
 import Login from "./pages/login"
 import Signup from "./pages/signup"
 import Profile from "./pages/profile"
+import Wallet from "./pages/wallet"
 
 const light = {
 	palette: {
@@ -34,6 +35,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/profile" element={<Profile />} />
+					<Route path="/wallet" element={<Wallet />} />
 				</Routes>
 			</BrowserRouter>
 		</ThemeProvider>
