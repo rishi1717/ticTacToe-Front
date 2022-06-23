@@ -6,17 +6,10 @@ import Typography from "@mui/material/Typography"
 import IconButton from "@mui/material/IconButton"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded"
-import { Button } from "@mui/material"
-import { useSelector } from "react-redux"
-import { useDispatch } from "react-redux"
-import { setTheme } from "../redux/appSlice"
-import { deleteUser } from "../redux/userSlice"
 import { useNavigate } from "react-router-dom"
 
 export default function UserNavBar() {
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
-	const appState = useSelector((state) => state.app)
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -45,50 +38,6 @@ export default function UserNavBar() {
 					>
 						TicTacToe
 					</Typography>
-					
-					{/* ///////////////////////////////////////////////////////////////////////////////////////////////// */}
-					{appState.darkTheme ? (
-						<Button
-							variant="contained"
-							sx={{
-								backgroundColor: "white",
-								color: "black",
-								mr: 1,
-								fontSize: 10,
-							}}
-							onClick={() => {
-								dispatch(setTheme(false))
-							}}
-						>
-							Light
-						</Button>
-					) : (
-						<Button
-							variant="contained"
-							sx={{ backgroundColor: "black", mr: 1, fontSize: 10 }}
-							onClick={() => {
-								dispatch(setTheme(true))
-							}}
-						>
-							Dark
-						</Button>
-					)}
-					<Button
-						variant="contained"
-						sx={{
-							backgroundColor: "white",
-							color: "black",
-							mr: 1,
-							fontSize: 10,
-						}}
-						onClick={() => {
-							dispatch(deleteUser())
-							navigate("/")
-						}}
-					>
-						Logout
-					</Button>
-					{/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
 					<Typography
 						variant="p"
 						component="div"
