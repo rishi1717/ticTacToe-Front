@@ -26,7 +26,8 @@ const dark = {
 
 function App() {
 	const appState = useSelector((state) => state.app)
-	// const user = useSelector((state) => state.user.user)
+	const user = useSelector((state) => state.user.user)
+	console.log(user)
 	useEffect(() => {
 		io(process.env.REACT_APP_SERVER)
 	}, [])

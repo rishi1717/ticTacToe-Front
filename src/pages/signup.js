@@ -12,6 +12,16 @@ import Navbar from "../components/navbar"
 import axios from "../axios"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
+
+const Toast = Swal.mixin({
+	background: "#1E1E1E",
+	color: "white",
+	toast: true,
+	position: "top-end",
+	showConfirmButton: false,
+	timerProgressBar: true,
+})
 
 function Signup() {
 	const navigate = useNavigate()
@@ -27,16 +37,22 @@ function Signup() {
 		email: "",
 		password: "",
 	})
-	const handleChange = ({currentTarget:input}) => {
-		setData({...data,[input.name]:input.value})
+	const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value })
 		reset(data)
 	}
-	const onSubmit = async ()=>{
-		try{
-		await axios.post("users", data)
-		navigate("/login")
-		}
-		catch(err){
+	const onSubmit = async () => {
+		try {
+			await axios.post("users", data)
+			Toast.fire({
+				title: "User Registered Successfully",
+				icon: "success",
+				showConfirmButton: false,
+				timer: 3000,
+				position: "bottom-right",
+			})
+			navigate("/login")
+		} catch (err) {
 			console.log(err.message)
 		}
 	}
@@ -171,7 +187,11 @@ function Signup() {
 						</Button>
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<Link href="#" onClick={()=>navigate('/login')} variant="body2">
+								<Link
+									href="#"
+									onClick={() => navigate("/login")}
+									variant="body2"
+								>
 									Already have an account? Sign in
 								</Link>
 							</Grid>

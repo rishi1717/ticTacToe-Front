@@ -31,13 +31,28 @@ export default function GuestNavBar() {
 					>
 						Guestid
 					</Typography>
-					<Typography
-						variant="h6"
-						component="div"
-						sx={{ flexGrow: 1, textAlign: "center" }}
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							flexGrow: 1,
+						}}
 					>
-						TicTacToe
-					</Typography>
+						<Typography
+							variant="h6"
+							sx={{
+								"&:hover": {
+									cursor: "pointer",
+								},
+							}}
+							onClick={() => {
+								navigate("/")
+							}}
+						>
+							TicTacToe
+						</Typography>
+					</Box>
 					<Button
 						onClick={() => {
 							navigate("/login")

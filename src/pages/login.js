@@ -15,10 +15,21 @@ import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../redux/userSlice"
 import GoogleLogin from "react-google-login"
 import { gapi } from "gapi-script"
+import Swal from "sweetalert2"
 import dotenv from "dotenv"
 dotenv.config()
 
+const Toast = Swal.mixin({
+	background: "#1E1E1E",
+	color: "white",
+	toast: true,
+	position: "top-end",
+	showConfirmButton: false,
+	timerProgressBar: true,
+})
+
 function Login() {
+	const [error,setError] = useState('')
 	useEffect(() => {
 		function start() {
 			gapi.client.init({
@@ -50,14 +61,23 @@ function Login() {
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value })
 		reset(data)
+		setError('')
 	}
 	const onSubmit = async () => {
 		try {
 			const res = await axios.post("users/login", data)
 			dispatch(setUser(res.data.user))
+			Toast.fire({
+				position: "bottom-right",
+				icon: "success",
+				title: "user Logged in",
+				showConfirmButton: false,
+				timer: 3000,
+			})
 			navigate("/")
 		} catch (err) {
-			console.log(err.message)
+			console.log(err.response.status)
+			setError(err.response.data)
 		}
 	}
 
@@ -126,7 +146,7 @@ function Login() {
 							{...register("password", {
 								required: "Provide password!",
 								minLength: {
-									value: 6,
+									value: 5,
 									message: "Atleast 6 characters required",
 								},
 							})}
@@ -144,6 +164,12 @@ function Login() {
 								errors.password ? errors.password.message : null
 							}
 						/>
+						{error && (
+							<Typography sx={{
+								color: "red",
+								textAlign: "center",
+							}}>{error}</Typography>
+						)}
 						<Button
 							type="submit"
 							fullWidth
