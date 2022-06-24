@@ -9,6 +9,8 @@ import Signup from "./pages/signup"
 import Profile from "./pages/profile"
 import Wallet from "./pages/wallet"
 import { io } from "socket.io-client"
+import dotenv from "dotenv"
+dotenv.config()
 
 const light = {
 	palette: {
@@ -24,10 +26,9 @@ const dark = {
 
 function App() {
 	const appState = useSelector((state) => state.app)
-	const user = useSelector((state) => state.user.user)
-	console.log(user)
+	// const user = useSelector((state) => state.user.user)
 	useEffect(() => {
-		const socket = io("http://localhost:3001")
+		io("http://localhost:3001")
 	}, [])
 	return (
 		<ThemeProvider

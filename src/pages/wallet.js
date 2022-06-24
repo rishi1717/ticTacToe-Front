@@ -6,10 +6,15 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material"
-import React from "react"
+import React, { useEffect } from "react"
 import Navbar from "../components/navbar"
+import { io } from "socket.io-client"
 
 function Wallet() {
+	useEffect(() => {
+		const socket = io("http://localhost:3001")
+		socket.emit("test", "wallet", 23)
+	}, [])
 	return (
 		<>
 			<Navbar />
