@@ -28,7 +28,7 @@ function App() {
 	const appState = useSelector((state) => state.app)
 	// const user = useSelector((state) => state.user.user)
 	useEffect(() => {
-		io("http://localhost:3001")
+		io(process.env.REACT_APP_SERVER)
 	}, [])
 	return (
 		<ThemeProvider
