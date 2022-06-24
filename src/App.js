@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Landing from "./pages/landing"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -8,6 +8,7 @@ import Login from "./pages/login"
 import Signup from "./pages/signup"
 import Profile from "./pages/profile"
 import Wallet from "./pages/wallet"
+import { io } from "socket.io-client"
 
 const light = {
 	palette: {
@@ -23,7 +24,11 @@ const dark = {
 
 function App() {
 	const appState = useSelector((state) => state.app)
-  // console.log(appState)
+	const user = useSelector((state) => state.user.user)
+	console.log(user)
+	useEffect(() => {
+		const socket = io("http://localhost:3001")
+	}, [])
 	return (
 		<ThemeProvider
 			theme={appState.darkTheme ? createTheme(dark) : createTheme(light)}
