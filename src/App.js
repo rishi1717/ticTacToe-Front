@@ -46,7 +46,7 @@ function App() {
 				}
 			}
 		})()
-	}, [])
+	}, [user])
 	return (
 		<ThemeProvider
 			theme={appState.darkTheme ? createTheme(dark) : createTheme(light)}
