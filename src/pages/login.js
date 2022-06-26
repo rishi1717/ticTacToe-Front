@@ -76,7 +76,7 @@ function Login() {
 			})
 			navigate("/")
 		} catch (err) {
-			console.log(err.response.status)
+			console.log(err.response)
 			setError(err.response.data)
 		}
 	}
