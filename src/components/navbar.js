@@ -104,6 +104,10 @@ export default function UserNavBar() {
 								onClick={() => {
 									navigate("/login")
 								}}
+								sx={{
+									color: "white",
+									backgroundColor: "primary",
+								}}
 							>
 								Login
 							</Button>

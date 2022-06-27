@@ -12,6 +12,7 @@ import { io } from "socket.io-client"
 import dotenv from "dotenv"
 import axios from "./axios"
 import { setUser } from "./redux/userSlice"
+import FriendList from "./pages/friendList"
 dotenv.config()
 
 const light = {
@@ -33,17 +34,16 @@ function App() {
 	useEffect(() => {
 		;(async () => {
 			const socket = io(process.env.REACT_APP_SERVER)
-			if (user.token) {
-				socket.emit("active", { _id: user._id })
-			} else {
-				if (!user.guestId) {
-					try {
-						const res = await axios.post("/guests", {})
-						dispatch(setUser(res.data.guest))
-					} catch (e) {
-						console.log(e)
-					}
+			if (!user._id) {
+				try {
+					const res = await axios.post("/guests", {})
+					socket.emit("connection", { _id: res.data.guest._id })
+					dispatch(setUser(res.data.guest))
+				} catch (e) {
+					console.log(e)
 				}
+			} else {
+				socket.emit("connection", { _id: user._id })
 			}
 		})()
 	}, [user])
@@ -59,6 +59,7 @@ function App() {
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/wallet" element={<Wallet />} />
+					<Route path="/friendlist" element={<FriendList />} />
 				</Routes>
 			</BrowserRouter>
 		</ThemeProvider>
