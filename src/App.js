@@ -13,6 +13,8 @@ import dotenv from "dotenv"
 import axios from "./axios"
 import { setUser } from "./redux/userSlice"
 import FriendList from "./pages/friendList"
+import { LevelProvider } from "./contextApi/levelContext"
+import { ThemeContextProvider } from "./contextApi/themeContext"
 dotenv.config()
 
 const light = {
@@ -28,9 +30,20 @@ const dark = {
 }
 
 function App() {
-	const appState = useSelector((state) => state.app)
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.user.user)
+
+	const levels = {
+		0: "Novice",
+		1: "Apprentice",
+		2: "Intermediate",
+		3: "Expert",
+		4: "Master",
+		5: "Grandmaster",
+	}
+
+	const [darkTheme, setDarkTheme] = React.useState(true)
+
 	useEffect(() => {
 		;(async () => {
 			const socket = io(process.env.REACT_APP_SERVER)
@@ -48,21 +61,27 @@ function App() {
 		})()
 	}, [user])
 	return (
-		<ThemeProvider
-			theme={appState.darkTheme ? createTheme(dark) : createTheme(light)}
-		>
-			<CssBaseline />
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<Landing />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/profile" element={<Profile />} />
-					<Route path="/wallet" element={<Wallet />} />
-					<Route path="/friendlist" element={<FriendList />} />
-				</Routes>
-			</BrowserRouter>
-		</ThemeProvider>
+		<LevelProvider value={levels}>
+			<ThemeContextProvider value={[darkTheme, setDarkTheme]}>
+				<ThemeProvider
+					theme={
+						darkTheme ? createTheme(dark) : createTheme(light)
+					}
+				>
+					<CssBaseline />
+					<BrowserRouter>
+						<Routes>
+							<Route path="/" element={<Landing />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/signup" element={<Signup />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route path="/wallet" element={<Wallet />} />
+							<Route path="/friendlist" element={<FriendList />} />
+						</Routes>
+					</BrowserRouter>
+				</ThemeProvider>
+			</ThemeContextProvider>
+		</LevelProvider>
 	)
 }
 

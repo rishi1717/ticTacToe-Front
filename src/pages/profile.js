@@ -9,19 +9,19 @@ import {
 	Paper,
 	Typography,
 } from "@mui/material"
-import React from "react"
+import React, { useContext } from "react"
 import image from "../assets/images/hacker.png"
 import walletIcon from "../assets/images/wallet.png"
 import Navbar from "../components/navbar"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { setTheme } from "../redux/appSlice"
 import { deleteUser } from "../redux/userSlice"
+import ThemeContext from "../contextApi/themeContext"
 
 function Profile() {
+	const [darkTheme, setDarkTheme] = useContext(ThemeContext)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	const appState = useSelector((state) => state.app)
 	const user = useSelector((state) => state.user.user)
 	return (
 		<>
@@ -385,7 +385,7 @@ function Profile() {
 					}}
 				>
 					<Grid item alignItems="center" display="flex" justify="center">
-						{appState.darkTheme ? (
+						{darkTheme ? (
 							<Button
 								variant="contained"
 								sx={{
@@ -395,7 +395,7 @@ function Profile() {
 									fontSize: 10,
 								}}
 								onClick={() => {
-									dispatch(setTheme(false))
+									setDarkTheme(false)
 								}}
 							>
 								Light Mode
@@ -405,7 +405,7 @@ function Profile() {
 								variant="contained"
 								sx={{ backgroundColor: "black", mr: 1, fontSize: 10 }}
 								onClick={() => {
-									dispatch(setTheme(true))
+									setDarkTheme(true)
 								}}
 							>
 								Dark Mode

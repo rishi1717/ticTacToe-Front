@@ -13,7 +13,6 @@ import {
 } from "redux-persist"
 import storage from "reduxjs-toolkit-persist/lib/storage"
 import autoMergeLevel1 from "reduxjs-toolkit-persist/lib/stateReconciler/autoMergeLevel1"
-import appReducer from "./appSlice"
 import userReducer from "./userSlice"
 
 const persistConfig = {
@@ -23,7 +22,6 @@ const persistConfig = {
 }
 
 const reducers = combineReducers({
-	app: appReducer,
 	user: userReducer,
 })
 

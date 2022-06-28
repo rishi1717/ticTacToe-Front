@@ -1,14 +1,16 @@
-import * as React from "react"
+import React, { useContext } from "react"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import Typography from "@mui/material/Typography"
 import image from "../assets/images/hacker.png"
 import { Button } from "@mui/material"
+import LevelContext from "../contextApi/levelContext"
 
 export default function UserCard(props) {
 	const { user } = props
-	console.log(user,"user")
+	console.log(user, "user")
+	const levels = useContext(LevelContext)
 	return (
 		<Card
 			sx={{
@@ -16,7 +18,7 @@ export default function UserCard(props) {
 				m: "1rem",
 				flexDirection: { xs: "row", md: "row" },
 				justifyContent: { xs: "center", md: "space-between" },
-				alignItems: { xs: "center", md: "flex-start" },
+				alignItems: { xs: "center" },
 				borderRadius: 2,
 			}}
 		>
@@ -65,29 +67,50 @@ export default function UserCard(props) {
 					width: { xs: 200, md: 200 },
 				}}
 			>
-				<Typography>{user.fullName}</Typography>
-				<Typography>{user.userName}</Typography>
+				<Typography>{levels[user.level]}</Typography>
+				{user.active ? (
+					<Typography
+						sx={{
+							color: "green",
+						}}
+					>
+						online
+					</Typography>
+				) : (
+					<Typography
+						sx={{
+							color: "red",
+						}}
+					>
+						offline
+					</Typography>
+				)}
 			</CardContent>
 
 			<CardContent
 				sx={{
 					display: "flex",
 					flexDirection: { xs: "column" },
-					justifyContent: { xs: "center" },
-					alignItems: { xs: "left" },
 					width: { xs: 200, md: 200 },
 				}}
 			>
 				<Button
 					sx={{
 						fontSize: { xs: "0.5rem", md: "0.8rem" },
+						backgroundColor: "#4EADFE",
+						color: "white",
+						maxWidth: 150,
 					}}
 				>
 					Request Match
 				</Button>
 				<Button
 					sx={{
+						backgroundColor: "#4EADFE",
+						color: "white",
 						fontSize: { xs: "0.5rem", md: "0.8rem" },
+						mt: { xs: "0.5rem" },
+						maxWidth: 150,
 					}}
 				>
 					Profile
