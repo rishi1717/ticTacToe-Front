@@ -1,8 +1,10 @@
 import React from "react"
 import { Grid, Paper } from "@mui/material"
 import Navbar from "../components/navbar"
+import { useNavigate } from "react-router-dom"
 
 function Landing() {
+	const navigate = useNavigate()
 	return (
 		<>
 			<Navbar />
@@ -12,7 +14,7 @@ function Landing() {
 				direction="column"
 				alignItems="center"
 				justifyContent="center"
-				sx={{ minHeight: "60vh"}}
+				sx={{ minHeight: "60vh" }}
 			>
 				<Grid item xs={3}>
 					<Paper
@@ -22,6 +24,13 @@ function Landing() {
 							textAlign: "center",
 							py: 1,
 							mb: 3,
+							cursor: "pointer",
+							"&:hover": {
+								backgroundColor: "#4EADFE",
+								transform: "scale(1.05)",
+								transition:
+									"transform 0.3s ease-in-out, background-color 0.3s ease-in-out",
+							},
 						}}
 					>
 						Random Match
@@ -33,6 +42,16 @@ function Landing() {
 							textAlign: "center",
 							py: 1,
 							mb: 3,
+							cursor: "pointer",
+							"&:hover": {
+								backgroundColor: "#4EADFE",
+								transform: "scale(1.05)",
+								transition:
+									"transform 0.3s ease-in-out, background-color 0.3s ease-in-out",
+							},
+						}}
+						onClick={() => {
+							navigate("/friendList")
 						}}
 					>
 						Friends List
@@ -44,6 +63,13 @@ function Landing() {
 							textAlign: "center",
 							py: 1,
 							mb: 3,
+							cursor: "pointer",
+							"&:hover": {
+								backgroundColor: "#4EADFE",
+								transform: "scale(1.05)",
+								transition:
+									"transform 0.3s ease-in-out, background-color 0.3s ease-in-out",
+							},
 						}}
 					>
 						Tournaments
@@ -55,6 +81,13 @@ function Landing() {
 							textAlign: "center",
 							py: 1,
 							mb: 3,
+							cursor: "pointer",
+							"&:hover": {
+								backgroundColor: "#4EADFE",
+								transform: "scale(1.05)",
+								transition:
+									"transform 0.3s ease-in-out, background-color 0.3s ease-in-out",
+							},
 						}}
 					>
 						Leaderboard

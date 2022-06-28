@@ -1,13 +1,25 @@
-import { TextField } from '@mui/material'
-import { Box, Container } from '@mui/system'
-import React from 'react'
-import UserNavBar from '../components/navbar'
-import UserCard from '../components/userCard'
+import { TextField } from "@mui/material"
+import { Box, Container } from "@mui/system"
+import React, { useEffect, useState } from "react"
+import UserNavBar from "../components/navbar"
+import UserCard from "../components/userCard"
+import axios from "../axios"
+import { useSelector } from "react-redux"
 
 function FriendList() {
-  return (
+	const [users, setUsers] = useState([])
+	const user = useSelector((state) => state.user.user)
+
+	useEffect(() => {
+		;(async () => {
+			const response = await axios.get("/users/friends/" + user._id)
+			setUsers(response.data)
+		})()
+	}, [])
+
+	return (
 		<>
-        <UserNavBar/>
+			<UserNavBar />
 			<Container>
 				<Box
 					display="flex"
@@ -31,10 +43,12 @@ function FriendList() {
 					/>
 				</Box>
 
-                {[1,2,3,4,5,6,7,8,9,10].map((i) => <UserCard key={i}/>)}
+				{users.map((user) => (
+					<UserCard key={user._id} user={user}/>
+				))}
 			</Container>
 		</>
-  )
+	)
 }
 
 export default FriendList

@@ -10,8 +10,8 @@ import {
 	Typography,
 } from "@mui/material"
 import React from "react"
-import image from "../static/hacker.png"
-import walletIcon from "../static/wallet.png"
+import image from "../assets/images/hacker.png"
+import walletIcon from "../assets/images/wallet.png"
 import Navbar from "../components/navbar"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
