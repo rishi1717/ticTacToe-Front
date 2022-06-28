@@ -7,7 +7,7 @@ import image from "../assets/images/hacker.png"
 import { Button } from "@mui/material"
 import LevelContext from "../contextApi/levelContext"
 
-export default function UserCard(props) {
+export default function SearchCard(props) {
 	const { user } = props
 	const levels = useContext(LevelContext)
 	return (
@@ -67,23 +67,6 @@ export default function UserCard(props) {
 				}}
 			>
 				<Typography>{levels[user.level]}</Typography>
-				{user.active ? (
-					<Typography
-						sx={{
-							color: "green",
-						}}
-					>
-						online
-					</Typography>
-				) : (
-					<Typography
-						sx={{
-							color: "red",
-						}}
-					>
-						offline
-					</Typography>
-				)}
 			</CardContent>
 
 			<CardContent
@@ -101,19 +84,9 @@ export default function UserCard(props) {
 						maxWidth: 150,
 					}}
 				>
-					Request Match
+					Send Request
 				</Button>
-				<Button
-					sx={{
-						backgroundColor: "#4EADFE",
-						color: "white",
-						fontSize: { xs: "0.5rem", md: "0.8rem" },
-						mt: { xs: "0.5rem" },
-						maxWidth: 150,
-					}}
-				>
-					Profile
-				</Button>
+			
 			</CardContent>
 		</Card>
 	)
