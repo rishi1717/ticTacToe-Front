@@ -15,6 +15,7 @@ import { setUser } from "./redux/userSlice"
 import FriendList from "./pages/friendList"
 import { LevelProvider } from "./contextApi/levelContext"
 import { ThemeContextProvider } from "./contextApi/themeContext"
+import Leaderboard from "./pages/leaderboard"
 dotenv.config()
 
 const light = {
@@ -77,6 +78,7 @@ function App() {
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/wallet" element={<Wallet />} />
 							<Route path="/friendlist" element={<FriendList />} />
+							<Route path="/leaderboard" element={<Leaderboard />} />
 						</Routes>
 					</BrowserRouter>
 				</ThemeProvider>
