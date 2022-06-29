@@ -9,8 +9,10 @@ import {
 import React, { useEffect } from "react"
 import Navbar from "../components/navbar"
 import { io } from "socket.io-client"
+import { useSelector } from "react-redux"
 
 function Wallet() {
+	const user = useSelector((state) => state.user.user)
 	useEffect(() => {
 		const socket = io("http://localhost:3001")
 		socket.emit("test", "wallet", 23)
@@ -51,14 +53,18 @@ function Wallet() {
 							width: "60%",
 							p: 0.1,
 							textAlign: "center",
-							display:'flex',
-							flexDirection:{xs:'column',sm:'row'},
-							justifyContent:'space-around'
+							display: "flex",
+							flexDirection: { xs: "column", sm: "row" },
+							justifyContent: "space-around",
 						}}
 					>
-						<Typography sx={{fontSize:12}}>1 Rs = 1 Tic</Typography>
-						<Typography sx={{fontSize:12}}>Min Amount = 10 Rs</Typography>
-						<Typography sx={{fontSize:12}}>Min Withdraw = 20 Rs</Typography>
+						<Typography sx={{ fontSize: 12 }}>1 Rs = 1 Tic</Typography>
+						<Typography sx={{ fontSize: 12 }}>
+							Min Amount = 10 Rs
+						</Typography>
+						<Typography sx={{ fontSize: 12 }}>
+							Min Withdraw = 20 Rs
+						</Typography>
 					</Paper>
 					<Grid
 						container
@@ -117,9 +123,10 @@ function Wallet() {
 										fontSize: { xs: 22, sm: 32 },
 									}}
 								>
-									1000 Tics
+									{user.walletAmount} Tics
 								</Typography>
 							</Grid>
+
 							<Grid
 								container
 								spacing={0}
@@ -163,7 +170,7 @@ function Wallet() {
 											fontSize: { xs: 22, sm: 32 },
 										}}
 									>
-										800 Rs
+										{user.walletAmount - user.referalAmount} Tics
 									</Typography>
 								</Grid>
 							</Grid>
@@ -267,7 +274,7 @@ function Wallet() {
 									color: "#4EADFE",
 								}}
 							>
-								1200
+								{user.amountWon} Tics
 							</Typography>
 						</Paper>
 					</Grid>
@@ -297,7 +304,7 @@ function Wallet() {
 									color: "#4EADFE",
 								}}
 							>
-								1400
+								{user.amountSpent} Tics
 							</Typography>
 						</Paper>
 					</Grid>
@@ -327,7 +334,7 @@ function Wallet() {
 									color: "#4EADFE",
 								}}
 							>
-								120
+								{user.referalAmount} Tics
 							</Typography>
 						</Paper>
 					</Grid>

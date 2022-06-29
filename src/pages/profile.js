@@ -184,7 +184,7 @@ function Profile() {
 												fontFamily: "monospace",
 											}}
 										>
-											<b>1000 TCoins</b>
+											<b>{user.walletAmount} Tics</b>
 										</Typography>
 										<Button
 											variant="containied"
@@ -279,7 +279,7 @@ function Profile() {
 										color: "#4EADFE",
 									}}
 								>
-									94
+									{user.matchesPlayed}
 								</Typography>
 								<Typography>Games Played</Typography>
 							</Paper>
@@ -309,7 +309,7 @@ function Profile() {
 										color: "#4EADFE",
 									}}
 								>
-									41
+									{user.matchesWon}
 								</Typography>
 								<Typography>Games Won</Typography>
 							</Paper>
@@ -339,7 +339,7 @@ function Profile() {
 										color: "#4EADFE",
 									}}
 								>
-									920
+									{user.amountWon}
 								</Typography>
 								<Typography>Coins Earned</Typography>
 							</Paper>
@@ -369,7 +369,7 @@ function Profile() {
 										color: "#4EADFE",
 									}}
 								>
-									2
+									{user.tournamentsWon}
 								</Typography>
 								<Typography>Tournaments Won</Typography>
 							</Paper>
