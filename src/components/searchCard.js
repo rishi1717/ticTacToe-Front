@@ -19,6 +19,7 @@ export default function SearchCard(props) {
 				justifyContent: { xs: "center", md: "space-between" },
 				alignItems: { xs: "center" },
 				borderRadius: 2,
+				boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.4)",
 			}}
 		>
 			<CardMedia
@@ -86,7 +87,6 @@ export default function SearchCard(props) {
 				>
 					Send Request
 				</Button>
-			
 			</CardContent>
 		</Card>
 	)

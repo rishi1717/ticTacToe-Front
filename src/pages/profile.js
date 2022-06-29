@@ -23,6 +23,7 @@ function Profile() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.user.user)
+	console.log(user)
 	return (
 		<>
 			<Navbar />
@@ -93,7 +94,7 @@ function Profile() {
 										fontFamily: "monospace",
 									}}
 								>
-									<b>Rishi R</b>
+									<b>{user.fullName}</b>
 								</Typography>
 
 								<Typography
@@ -105,7 +106,7 @@ function Profile() {
 										fontFamily: "monospace",
 									}}
 								>
-									<b>ihsir9991</b>
+									<b>{user.userName}</b>
 								</Typography>
 							</CardContent>
 						</Card>
