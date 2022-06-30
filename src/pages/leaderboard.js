@@ -1,4 +1,4 @@
-import { Box, Container, Tab, Tabs } from "@mui/material"
+import { Box, Container, Tab, Tabs, Typography } from "@mui/material"
 import axios from "../axios"
 import React, { useEffect, useState } from "react"
 import Navbar from "../components/navbar.js"
@@ -26,8 +26,27 @@ function Leaderboard() {
 		<>
 			<Navbar />
 			<Container>
+				<Typography
+					sx={{
+						fontSize: { xs: 22, sm: 28 },
+						color: "#4EADFE",
+						textAlign: { xs: "center", sm: "left" },
+						mt: 2,
+						ml:2
+					}}
+				>
+					LeaderBoard
+				</Typography>
 				<Box sx={{ width: "100%" }}>
-					<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+					<Box
+						sx={{
+							borderBottom: 1,
+							borderColor: "divider",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+						}}
+					>
 						<Tabs
 							value={value}
 							onChange={handleChange}
@@ -40,17 +59,29 @@ function Leaderboard() {
 					</Box>
 					<TabPanel value={value} index={0}>
 						{mostWins.map((user) => (
-							<LeaderboardCard key={user._id} />
+							<LeaderboardCard
+								key={user._id}
+								user={user}
+								value={value}
+							/>
 						))}
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						{winRatio.map((user) => (
-							<LeaderboardCard key={user._id} />
+							<LeaderboardCard
+								key={user._id}
+								user={user}
+								value={value}
+							/>
 						))}
 					</TabPanel>
 					<TabPanel value={value} index={2}>
 						{earnings.map((user) => (
-							<LeaderboardCard key={user._id} />
+							<LeaderboardCard
+								key={user._id}
+								user={user}
+								value={value}
+							/>
 						))}
 					</TabPanel>
 				</Box>

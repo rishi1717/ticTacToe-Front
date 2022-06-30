@@ -21,16 +21,13 @@ function Wallet() {
 		<>
 			<Navbar />
 			<Container
-				sx={{
-					mt: 3,
-				}}
 			>
 				<Typography
 					sx={{
-						fontSize: { xs: 16, sm: 32 },
+						fontSize: { xs: 22, sm: 28 },
 						color: "#4EADFE",
-						textAlign: "center",
-						mb: 2,
+						textAlign: {xs:'center',sm:"left"},
+						m: 2,
 					}}
 				>
 					Wallet

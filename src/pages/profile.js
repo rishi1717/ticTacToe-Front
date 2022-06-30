@@ -28,12 +28,22 @@ function Profile() {
 		<>
 			<Navbar />
 			<Container sx={{ mb: 4 }}>
+				<Typography
+					sx={{
+						fontSize: { xs: 22, sm: 28 },
+						color: "#4EADFE",
+						textAlign: { xs: "center", sm: "left" },
+						mt: 2,
+						ml:2
+					}}
+				>
+					Profile
+				</Typography>
 				<Grid
 					container
 					spacing={0}
 					alignItems="center"
 					justifyContent="center"
-					mt={{ xs: 1, sm: 3 }}
 				>
 					<Grid
 						item
