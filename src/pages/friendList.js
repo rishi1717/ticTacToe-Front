@@ -6,9 +6,11 @@ import UserCard from "../components/userCard"
 import axios from "../axios"
 import { useSelector } from "react-redux"
 import SearchCard from "../components/searchCard"
+import FriendReqCard from "../components/friendReqCard"
 
 function FriendList() {
 	const [search, setSearch] = useState("")
+	const [friendReq, setFriendReq] = useState([])
 	const [searchResults, setSearchResults] = useState([])
 	const [users, setUsers] = useState([])
 	const user = useSelector((state) => state.user.user)
@@ -18,6 +20,8 @@ function FriendList() {
 		;(async () => {
 			const response = await axios.get("/users/friends/" + user._id)
 			setUsers(response.data)
+			const friendReq = await axios.get("/friendreq/" + user._id)
+			setFriendReq(friendReq.data)
 		})()
 	}, [])
 
@@ -87,25 +91,50 @@ function FriendList() {
 							</Typography>
 						) : (
 							<>
-								{searchResults.map((user) => (
-									<SearchCard key={user._id} user={user} />
+								{searchResults.map((userSearch) => (
+									<SearchCard key={userSearch._id} userSearch={userSearch} friends={users} friendReq={friendReq} />
 								))}
 							</>
 						)}
-						<Box sx={{
-							mt: "2rem",
-							display: "flex",
-							justifyContent: "center",
-							
-						}}>
-							<Button onClick={()=>{
-								setSearchValue("")
-								setSearchResults([])
-							}}> Go Back </Button>
+						<Box
+							sx={{
+								mt: "2rem",
+								display: "flex",
+								justifyContent: "center",
+							}}
+						>
+							<Button
+								onClick={() => {
+									setSearchValue("")
+									setSearchResults([])
+								}}
+							>
+								{" "}
+								Go Back{" "}
+							</Button>
 						</Box>
 					</>
 				) : (
 					<>
+						{friendReq.length > 0 && (
+							<>
+								<Typography
+									sx={{
+										fontSize: {
+											xs: "1rem",
+											sm: "1.2rem",
+											md: "1.3rem",
+										},
+										mt: "2rem",
+										color: "#4EADFE",
+										px: "2rem",
+									}}
+								>
+									Friend Requests
+								</Typography>
+								{friendReq.map((req) => (<FriendReqCard key={req._id} req={req} />))}
+							</>
+						)}
 						<Typography
 							sx={{
 								fontSize: { xs: "1.2rem", sm: "1.4rem", md: "1.5rem" },
