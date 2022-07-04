@@ -9,11 +9,12 @@ import axios from "../axios"
 import LevelContext from "../contextApi/levelContext"
 
 export default function FriendReqCard(props) {
-	const { req } = props
+	const { req, state, setState } = props
     const levels = useContext(LevelContext)
 	const handleAccept = async () => {
 		try {
 			const res = await axios.patch("friendreq/accept/"+req._id)
+            setState(!state)
 			console.log(res)
 		} catch (err) {
 			console.log(err.message)
@@ -22,6 +23,7 @@ export default function FriendReqCard(props) {
 	const handleReject = async () => {
 		try {
 			const res = await axios.patch("friendreq/reject/"+req._id)
+            setState(!state)
 			console.log(res)
 		} catch (err) {
 			console.log(err.message)

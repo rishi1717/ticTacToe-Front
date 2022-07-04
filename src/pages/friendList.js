@@ -9,8 +9,10 @@ import SearchCard from "../components/searchCard"
 import FriendReqCard from "../components/friendReqCard"
 
 function FriendList() {
+	const [state, setState] = useState(true)
 	const [search, setSearch] = useState("")
 	const [friendReq, setFriendReq] = useState([])
+	const [friendReqSent, setFriendReqSent] = useState([])
 	const [searchResults, setSearchResults] = useState([])
 	const [users, setUsers] = useState([])
 	const user = useSelector((state) => state.user.user)
@@ -22,8 +24,10 @@ function FriendList() {
 			setUsers(response.data)
 			const friendReq = await axios.get("/friendreq/" + user._id)
 			setFriendReq(friendReq.data)
+			const friendReqSent = await axios.get("/friendreq/sent/" + user._id)
+			setFriendReqSent(friendReqSent.data)
 		})()
-	}, [])
+	}, [state])
 
 	const handleChange = (e) => {
 		setSearch(e.target.value)
@@ -92,7 +96,15 @@ function FriendList() {
 						) : (
 							<>
 								{searchResults.map((userSearch) => (
-									<SearchCard key={userSearch._id} userSearch={userSearch} friends={users} friendReq={friendReq} />
+									<SearchCard
+										key={userSearch._id}
+										userSearch={userSearch}
+										friends={users}
+										friendReq={friendReq}
+										friendReqSent={friendReqSent}
+										state={state}
+										setState={setState}
+									/>
 								))}
 							</>
 						)}
@@ -132,7 +144,14 @@ function FriendList() {
 								>
 									Friend Requests
 								</Typography>
-								{friendReq.map((req) => (<FriendReqCard key={req._id} req={req} />))}
+								{friendReq.map((req) => (
+									<FriendReqCard
+										key={req._id}
+										req={req}
+										state={state}
+										setState={setState}
+									/>
+								))}
 							</>
 						)}
 						<Typography
@@ -146,7 +165,12 @@ function FriendList() {
 							Your Friends
 						</Typography>
 						{users.map((user) => (
-							<UserCard key={user._id} user={user} />
+							<UserCard
+								key={user._id}
+								user={user}
+								state={state}
+								setState={setState}
+							/>
 						))}
 					</>
 				)}
