@@ -7,9 +7,13 @@ import axios from "../axios"
 import { useSelector } from "react-redux"
 import SearchCard from "../components/searchCard"
 import FriendReqCard from "../components/friendReqCard"
+import { io } from "socket.io-client"
+import dotenv from "dotenv"
+dotenv.config()
 
 function FriendList() {
 	const [state, setState] = useState(true)
+	const socket = io(process.env.REACT_APP_SERVER)
 	const [search, setSearch] = useState("")
 	const [friendReq, setFriendReq] = useState([])
 	const [friendReqSent, setFriendReqSent] = useState([])
@@ -43,6 +47,10 @@ function FriendList() {
 			console.log(err)
 		}
 	}
+
+	socket.on("onlineUpdate", () => {
+		setState(!state)
+	})
 
 	return (
 		<>

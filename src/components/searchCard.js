@@ -11,7 +11,14 @@ import { useSelector } from "react-redux"
 import { Box } from "@mui/system"
 
 export default function SearchCard(props) {
-	const { userSearch, friends, friendReq, friendReqSent, state, setState } = props
+	const {
+		userSearch,
+		friends,
+		friendReq,
+		friendReqSent,
+		state,
+		setState,
+	} = props
 	const user1 = useSelector((state) => state.user.user)
 	const levels = useContext(LevelContext)
 	const isFriend = friends.find((friend) => friend._id === userSearch._id)
@@ -21,7 +28,7 @@ export default function SearchCard(props) {
 	)
 	const handleClick = async () => {
 		try {
-			const res = await axios.post("friendreq", {
+			await axios.post("friendreq", {
 				from: user1._id,
 				to: userSearch._id,
 			})
@@ -33,7 +40,7 @@ export default function SearchCard(props) {
 	}
 	const handleAccept = async () => {
 		try {
-			const res = await axios.patch("friendreq/accept/" + isReq._id)
+			await axios.patch("friendreq/accept/" + isReq._id)
 			setState(!state)
 		} catch (err) {
 			console.log(err.message)
@@ -41,7 +48,7 @@ export default function SearchCard(props) {
 	}
 	const handleReject = async () => {
 		try {
-			const res = await axios.patch("friendreq/reject/" + isReq._id)
+			await axios.patch("friendreq/reject/" + isReq._id)
 			setState(!state)
 		} catch (err) {
 			console.log(err.message)
