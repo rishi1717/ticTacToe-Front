@@ -32,6 +32,9 @@ function Landing() {
 									"transform 0.3s ease-in-out, background-color 0.3s ease-in-out",
 							},
 						}}
+						onClick={() => {
+							navigate("/game")
+						}}
 					>
 						Random Match
 					</Paper>
