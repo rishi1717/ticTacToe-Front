@@ -1,5 +1,5 @@
 import React from 'react'
-import GameBox from '../components/GameBox'
+import GameBoard from '../components/GameBoard'
 import GameCard from '../components/GameCard'
 import UserNavBar from '../components/navbar'
 
@@ -8,7 +8,7 @@ function GamePage() {
     <div>
         <UserNavBar />
         <GameCard />
-        <GameBox />
+        <GameBoard />
     </div>
   )
 }

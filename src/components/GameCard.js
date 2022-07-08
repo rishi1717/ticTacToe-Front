@@ -1,14 +1,14 @@
-import { Box, Grid } from '@mui/material'
-import React from 'react'
+import { Box, Grid } from "@mui/material"
+import React from "react"
 
 function GameCard() {
-  return (
+	return (
 		<Box
 			sx={{
 				width: { xs: "100", md: "70%" },
 				backgroundColor: "#272727",
-        margin: "1rem",
-        padding: "2rem",
+				margin: "1rem",
+				padding: "2rem",
 			}}
 		>
 			<Grid
@@ -25,7 +25,7 @@ function GameCard() {
 				</Grid>
 			</Grid>
 		</Box>
-  ) 
+	)
 }
 
 export default GameCard
