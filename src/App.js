@@ -18,6 +18,7 @@ import { ThemeContextProvider } from "./contextApi/themeContext"
 import Leaderboard from "./pages/leaderboard"
 import { light, dark, levels } from "./utils"
 import GamePage from "./pages/gamePage"
+import SelectLevel from "./pages/SelectLevel"
 
 dotenv.config()
 
@@ -62,6 +63,7 @@ function App() {
 							<Route path="/friendlist" element={<FriendList />} />
 							<Route path="/leaderboard" element={<Leaderboard />} />
 							<Route path="/game" element={<GamePage />} />
+							<Route path="/selectlevel" element={<SelectLevel />} />
 						</Routes>
 					</BrowserRouter>
 				</ThemeProvider>

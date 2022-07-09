@@ -6,10 +6,13 @@ import Typography from "@mui/material/Typography"
 import image from "../assets/images/hacker.png"
 import { Button } from "@mui/material"
 import LevelContext from "../contextApi/levelContext"
+import { useNavigate } from "react-router-dom"
 
 export default function UserCard(props) {
+	const navigate = useNavigate()
 	const { user } = props
 	const levels = useContext(LevelContext)
+	
 	return (
 		<Card
 			sx={{
@@ -100,6 +103,9 @@ export default function UserCard(props) {
 						backgroundColor: "#4EADFE",
 						color: "white",
 						maxWidth: 150,
+					}}
+					onClick={() => {
+						navigate('/selectlevel',{state: {user: user._id}})
 					}}
 				>
 					Request Match
