@@ -19,6 +19,7 @@ import Leaderboard from "./pages/leaderboard"
 import { light, dark, levels } from "./utils"
 import GamePage from "./pages/gamePage"
 import SelectLevel from "./pages/SelectLevel"
+import AdminLanding from "./pages/admin/AdminLanding"
 
 dotenv.config()
 
@@ -64,6 +65,7 @@ function App() {
 							<Route path="/leaderboard" element={<Leaderboard />} />
 							<Route path="/game" element={<GamePage />} />
 							<Route path="/selectlevel" element={<SelectLevel />} />
+							<Route path="/admin" element={<AdminLanding />} />
 						</Routes>
 					</BrowserRouter>
 				</ThemeProvider>
