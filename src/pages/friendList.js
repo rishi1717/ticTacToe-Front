@@ -16,6 +16,7 @@ function FriendList() {
 	const socket = io(process.env.REACT_APP_SERVER)
 	const [search, setSearch] = useState("")
 	const [friendReq, setFriendReq] = useState([])
+	const [matchRequests, setMatchRequests] = useState([])
 	const [friendReqSent, setFriendReqSent] = useState([])
 	const [searchResults, setSearchResults] = useState([])
 	const [users, setUsers] = useState([])
@@ -30,6 +31,8 @@ function FriendList() {
 			setFriendReq(friendReq.data)
 			const friendReqSent = await axios.get("/friendreq/sent/" + user._id)
 			setFriendReqSent(friendReqSent.data)
+			const matchReqRecieved = await axios.get('/match/'+user._id)
+			setMatchRequests(matchReqRecieved.data)
 		})()
 	}, [state])
 
@@ -178,6 +181,7 @@ function FriendList() {
 								user={user}
 								state={state}
 								setState={setState}
+								matchRequests={matchRequests}
 							/>
 						))}
 					</>

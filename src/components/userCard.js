@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom"
 
 export default function UserCard(props) {
 	const navigate = useNavigate()
-	const { user } = props
+	const { user, matchRequests } = props
 	const levels = useContext(LevelContext)
-	
+
 	return (
 		<Card
 			sx={{
@@ -97,19 +97,41 @@ export default function UserCard(props) {
 					width: { xs: 200, md: 200 },
 				}}
 			>
-				<Button
-					sx={{
-						fontSize: { xs: "0.5rem", md: "0.8rem" },
-						backgroundColor: "#4EADFE",
-						color: "white",
-						maxWidth: 150,
-					}}
-					onClick={() => {
-						navigate('/selectlevel',{state: {user: user._id}})
-					}}
-				>
-					Request Match
-				</Button>
+				{matchRequests.some((match) => {
+					console.log(match.player1)
+					return match.player1 === user._id
+				}) ? (
+					<>
+						<Button
+							sx={{
+								fontSize: { xs: "0.5rem", md: "0.8rem" },
+								backgroundColor: "#137400",
+								color: "white",
+								maxWidth: 150,
+							}}
+							onClick={() => {}}
+						>
+							Match Now
+						</Button>
+					</>
+				) : (
+					<>
+						<Button
+							sx={{
+								fontSize: { xs: "0.5rem", md: "0.8rem" },
+								backgroundColor: "#4EADFE",
+								color: "white",
+								maxWidth: 150,
+							}}
+							onClick={() => {
+								navigate("/selectlevel", { state: { user: user._id } })
+							}}
+						>
+							Request Match
+						</Button>
+					</>
+				)}
+
 				<Button
 					sx={{
 						backgroundColor: "#4EADFE",
