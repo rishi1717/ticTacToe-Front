@@ -1,5 +1,5 @@
 import { Avatar, Box } from "@mui/material"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import AdminNavbar from "../../components/admin/AdminNavbar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form"
 import axios from "../../axios"
 import { useDispatch, useSelector } from "react-redux"
 import Swal from "sweetalert2"
+import { setAdmin } from "../../redux/adminSlice"
 
 const Toast = Swal.mixin({
 	background: "#1E1E1E",
@@ -25,14 +26,14 @@ function AdminLanding() {
 	const [error, setError] = useState("")
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	// const user = useSelector((state) => state.user.user)
-	// useEffect(() => {
-	// 	if (user.token) {
-	// 		navigate("admin/dash")
-	// 	}
-	// }, [])
+	const admin = useSelector((state) => state.admin.admin)
+	useEffect(() => {
+		if (admin.token) {
+			navigate("/admin/dashboard")
+		}
+	}, [])
 	const [data, setData] = useState({
-		userName: "",
+		email: "",
 		password: "",
 	})
 	const {
@@ -48,8 +49,8 @@ function AdminLanding() {
 	}
 	const onSubmit = async () => {
 		try {
-			const res = await axios.post("admin/login", data)
-			// dispatch(setUser(res.data.user))
+			const res = await axios.post("admin", data)
+			dispatch(setAdmin(res.data.admin))
 			Toast.fire({
 				position: "bottom-right",
 				icon: "success",
@@ -57,10 +58,9 @@ function AdminLanding() {
 				showConfirmButton: false,
 				timer: 3000,
 			})
-			navigate("/admin/dash")
+			navigate("/admin/dashboard")
 		} catch (err) {
-			console.log(err.response)
-			setError(err.response.data)
+			setError(err.response.data.message)
 		}
 	}
 	return (
@@ -73,6 +73,7 @@ function AdminLanding() {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
+					padding: "2rem",
 				}}
 			>
 				<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -88,8 +89,8 @@ function AdminLanding() {
 					sx={{ mt: 1 }}
 				>
 					<TextField
-						{...register("userName", {
-							required: "Provide userName!",
+						{...register("email", {
+							required: "Provide email!",
 							minLength: {
 								value: 6,
 								message: "Atleast 6 characters required",
@@ -98,14 +99,14 @@ function AdminLanding() {
 						margin="normal"
 						required
 						fullWidth
-						id="userName"
-						label="UserName"
-						name="userName"
+						id="email"
+						label="Email"
+						name="email"
 						autoFocus
 						onChange={handleChange}
-						value={data.userName}
-						error={errors.userName ? true : false}
-						helperText={errors.userName ? errors.userName.message : null}
+						value={data.email}
+						error={errors.email ? true : false}
+						helperText={errors.email ? errors.email.message : null}
 					/>
 					<TextField
 						{...register("password", {

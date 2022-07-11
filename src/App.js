@@ -20,6 +20,10 @@ import { light, dark, levels } from "./utils"
 import GamePage from "./pages/gamePage"
 import SelectLevel from "./pages/SelectLevel"
 import AdminLanding from "./pages/admin/AdminLanding"
+import AdminDash from "./pages/admin/AdminDash"
+import AdminUsers from "./pages/admin/AdminUsers"
+import AdminExpenses from "./pages/admin/AdminExpenses"
+import AdminTournaments from "./pages/admin/AdminTournaments"
 
 dotenv.config()
 
@@ -66,6 +70,10 @@ function App() {
 							<Route path="/game" element={<GamePage />} />
 							<Route path="/selectlevel" element={<SelectLevel />} />
 							<Route path="/admin" element={<AdminLanding />} />
+							<Route path="/admin/dashboard" element={<AdminDash />} />
+							<Route path="/admin/users" element={<AdminUsers />} />
+							<Route path="/admin/expenses" element={<AdminExpenses />} />
+							<Route path="/admin/tournaments" element={<AdminTournaments />} />
 						</Routes>
 					</BrowserRouter>
 				</ThemeProvider>
