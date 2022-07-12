@@ -7,12 +7,27 @@ import image from "../assets/images/hacker.png"
 import { Button } from "@mui/material"
 import LevelContext from "../contextApi/levelContext"
 import { useNavigate } from "react-router-dom"
+import { io } from "socket.io-client"
+import axios from "../axios"
 
 export default function UserCard(props) {
 	const navigate = useNavigate()
 	const { user, matchRequests } = props
 	const levels = useContext(LevelContext)
+	let friendReqId = ""
+	const socket = io(process.env.REACT_APP_SERVER)
 
+	const handleAcceptMatch = async (id) => {
+		try {
+			let { data } = await axios.patch(`/match/${id}`, {})
+			console.log(data)
+			socket.emit("acceptMatch", {
+				to: data.match.player1.socketId,
+			})
+		} catch (err) {
+			console.log(err)
+		}
+	}
 	return (
 		<Card
 			sx={{
@@ -98,8 +113,11 @@ export default function UserCard(props) {
 				}}
 			>
 				{matchRequests.some((match) => {
-					console.log(match.player1)
-					return match.player1 === user._id
+					if (match.player1 === user._id) {
+						friendReqId = match._id
+						return true
+					}
+					return false
 				}) ? (
 					<>
 						<Button
@@ -109,7 +127,9 @@ export default function UserCard(props) {
 								color: "white",
 								maxWidth: 150,
 							}}
-							onClick={() => {}}
+							onClick={() => {
+								handleAcceptMatch(friendReqId)
+							}}
 						>
 							Match Now
 						</Button>

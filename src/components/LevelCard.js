@@ -3,8 +3,10 @@ import React from "react"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import { useSelector } from "react-redux"
 import axios from "../axios"
+import { useNavigate } from "react-router-dom"
 
 function LevelCard(props) {
+	const navigate = useNavigate()
 	const player1 = useSelector((state) => state.user.user._id)
 	const { level, player2 } = props
 	const handleMatchRequest = async (level) => {
@@ -16,7 +18,7 @@ function LevelCard(props) {
 				entryFee: level.entryFee,
                 winningAmount: level.winningAmount,
 			})
-			console.log(res)
+			navigate("/game", { state: { match: res.data.match } })
 		} catch (err) {
 			console.log(err)
 		}

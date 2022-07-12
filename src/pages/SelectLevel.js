@@ -10,9 +10,12 @@ function SelectLevel() {
 	const [levels, setLevels] = useState([])
 	useEffect(() => {
 		;(async () => {
-			const res = await axios.get("/level")
-			console.log(res.data)
-			setLevels(res.data)
+			try {
+				const res = await axios.get("/level")
+				setLevels(res.data)
+			} catch (err) {
+				console.log(err.message)
+			}
 		})()
 	}, [])
 	return (
