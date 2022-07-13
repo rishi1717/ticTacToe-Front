@@ -10,15 +10,19 @@ import { io } from "socket.io-client"
 function GamePage(props) {
 	const navigate = useNavigate()
 	const match = useLocation().state.match
+	const [matchData, setMatchData] = useState({})
 	const [winner, setWinner] = React.useState("")
 	const [update, setUpdate] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
+	const [loaded, setLoaded] = useState(false)
 	const socket = io(process.env.REACT_APP_SERVER)
 
 	useEffect(() => {
 		;(async () => {
 			try {
 				const { data } = await axios.get("/match/details/" + match._id)
+				setMatchData(data.match)
+				console.log(data.matcch)
 				if (!data.match) {
 					navigate("/friendlist")
 				}
@@ -34,7 +38,13 @@ function GamePage(props) {
 		})()
 	}, [update])
 
-	socket.on("acceptMatch", ({ from }) => {
+	useEffect(() => {
+		if (matchData.player1) {
+			setLoaded(true)
+		}
+	}, [matchData])
+
+	socket.on("acceptMatch", () => {
 		setUpdate(!update)
 	})
 
@@ -98,6 +108,10 @@ function GamePage(props) {
 								}}
 								onClick={() => {
 									navigate("/friendlist")
+									setLoaded(false)
+									setMatchData({})
+									setWinner("")
+									setWaitingForOpponent(true)
 								}}
 							>
 								Leave
@@ -106,8 +120,18 @@ function GamePage(props) {
 					</Box>
 				</>
 			)}
-			<GameCard match={match} />
-			<GameBoard match={match} winner={winner} setWinner={setWinner} />
+			{console.log(matchData, "GAME PAGE")}
+			{loaded && (
+				<>
+					<GameCard match={matchData} />
+					<GameBoard
+						match={matchData}
+						update={update}
+						setUpdate={setUpdate}
+						setWinner={setWinner}
+					/>
+				</>
+			)}
 		</div>
 	)
 }

@@ -3,15 +3,18 @@ import { Box } from "@mui/system"
 import axios from "../axios"
 import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
+import { io } from "socket.io-client"
 
 const array = new Array(9).fill(null)
 
-function GameBoard({ match, winner, setWinner }) {
+function GameBoard({ match, update, setUpdate, setWinner }) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
+	console.log(match)
 	let player = match.player1._id === user._id ? "player1" : "player2"
 	const [gameArr, setGameArr] = React.useState(array)
 	const [turn, setTurn] = React.useState(true)
+	const socket = io(process.env.REACT_APP_SERVER)	
 
 	useEffect(() => {
 		;(async () => {
@@ -21,7 +24,7 @@ function GameBoard({ match, winner, setWinner }) {
 				let player2Moves = data.match.player2Moves
 				if (data.match.winner) {
 					setWinner(data.match.winner.userName)
-				} 
+				}
 				setGameArr((gameArr) => {
 					const newGameArr = [...gameArr]
 					player1Moves.forEach((move) => {
@@ -36,7 +39,12 @@ function GameBoard({ match, winner, setWinner }) {
 				console.log(err)
 			}
 		})()
-	}, [])
+	}, [update])
+
+	socket.on('pointUpdate', () => {
+		setGameArr([])
+		setUpdate(!update)
+	})
 
 	const handleBoxClick = async (i) => {
 		setTurn(!turn)
@@ -59,7 +67,7 @@ function GameBoard({ match, winner, setWinner }) {
 			})
 			return newGameArr
 		})
-		console.log(gameArr)
+		setUpdate(!update)
 	}
 
 	return (
