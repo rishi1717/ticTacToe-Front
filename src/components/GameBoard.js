@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 
 const array = new Array(9).fill(null)
 
-function GameBoard({ match }) {
+function GameBoard({ match, winner, setWinner }) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
 	let player = match.player1._id === user._id ? "player1" : "player2"
@@ -19,6 +19,9 @@ function GameBoard({ match }) {
 				const { data } = await axios.get(`/match/details/${matchId}`)
 				let player1Moves = data.match.player1Moves
 				let player2Moves = data.match.player2Moves
+				if (data.match.winner) {
+					setWinner(data.match.winner.userName)
+				} 
 				setGameArr((gameArr) => {
 					const newGameArr = [...gameArr]
 					player1Moves.forEach((move) => {
@@ -41,7 +44,9 @@ function GameBoard({ match }) {
 			player: player,
 			move: i,
 		})
-		console.log(data)
+		if (data.match.winner) {
+			setWinner(data.match.winner.userName)
+		}
 		let player1Moves = data.match.player1Moves
 		let player2Moves = data.match.player2Moves
 		setGameArr((gameArr) => {
@@ -56,6 +61,7 @@ function GameBoard({ match }) {
 		})
 		console.log(gameArr)
 	}
+
 	return (
 		<Box
 			sx={{
