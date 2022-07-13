@@ -20,10 +20,10 @@ export default function UserCard(props) {
 	const handleAcceptMatch = async (id) => {
 		try {
 			let { data } = await axios.patch(`/match/${id}`, {})
-			console.log(data)
 			socket.emit("acceptMatch", {
 				to: data.match.player1.socketId,
 			})
+			navigate("/game", { state: { match: data.match } })
 		} catch (err) {
 			console.log(err)
 		}

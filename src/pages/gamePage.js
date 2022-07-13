@@ -10,6 +10,7 @@ import { io } from "socket.io-client"
 function GamePage(props) {
 	const navigate = useNavigate()
 	const match = useLocation().state.match
+  console.log(match)
 	const [update, setUpdate] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
 	const socket = io(process.env.REACT_APP_SERVER)
@@ -32,6 +33,7 @@ function GamePage(props) {
 
 	socket.on("acceptMatch", ({ from }) => {
 		console.log(from, "accepted")
+		setUpdate(!update)
 	})
 
 	return (
@@ -60,8 +62,8 @@ function GamePage(props) {
 					</Box>
 				</>
 			)}
-			<GameCard />
-			<GameBoard />
+			<GameCard match={match} />
+			<GameBoard match={match} />
 		</div>
 	)
 }

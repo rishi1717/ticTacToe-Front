@@ -1,7 +1,7 @@
-import { Box, Grid } from "@mui/material"
+import { Box, Grid, Paper, Typography } from "@mui/material"
 import React from "react"
 
-function GameCard() {
+function GameCard({ match }) {
 	return (
 		<Box
 			sx={{
@@ -17,11 +17,73 @@ function GameCard() {
 					justifyContent: "space-between",
 				}}
 			>
-				<Grid item xs={12}>
-					Player 1
+				<Grid
+					item
+					xs={12}
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<Typography>{match.player1.userName}</Typography>
+					<Paper
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							px: "1rem",
+							mx: "1rem",
+						}}
+					>
+						{match.player1Points}
+					</Paper>
 				</Grid>
-				<Grid item xs={12}>
-					Player 2
+				<Grid
+					item
+					xs={12}
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<Paper
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+							alignItems: "center",
+							px: "1rem",
+							mx: "1rem",
+						}}
+					>
+						<Typography>To win</Typography>
+						<Typography>{match.pointsToWin}</Typography>
+					</Paper>
+				</Grid>
+
+				<Grid
+					item
+					xs={12}
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<Paper
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							px: "1rem",
+							mx: "1rem",
+						}}
+					>
+						{match.player2Points}
+					</Paper>
+					<Typography>{match.player2.userName}</Typography>
 				</Grid>
 			</Grid>
 		</Box>

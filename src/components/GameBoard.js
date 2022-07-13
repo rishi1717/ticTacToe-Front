@@ -1,21 +1,61 @@
 import { Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
-import React from "react"
+import axios from "../axios"
+import React, { useEffect } from "react"
+import { useSelector } from "react-redux"
 
 const array = new Array(9).fill(null)
 
-function GameBoard() {
-	const handleBoxClick = (i) => {
+function GameBoard({ match }) {
+	const user = useSelector((state) => state.user.user)
+	let matchId = match._id
+	let player = match.player1._id === user._id ? "player1" : "player2"
+	const [gameArr, setGameArr] = React.useState(array)
+	const [turn, setTurn] = React.useState(true)
+
+	useEffect(() => {
+		;(async () => {
+			try {
+				const { data } = await axios.get(`/match/details/${matchId}`)
+				let player1Moves = data.match.player1Moves
+				let player2Moves = data.match.player2Moves
+				setGameArr((gameArr) => {
+					const newGameArr = [...gameArr]
+					player1Moves.forEach((move) => {
+						newGameArr[move] = "X"
+					})
+					player2Moves.forEach((move) => {
+						newGameArr[move] = "O"
+					})
+					return newGameArr
+				})
+			} catch (err) {
+				console.log(err)
+			}
+		})()
+	}, [])
+
+	const handleBoxClick = async (i) => {
+		setTurn(!turn)
+		const { data } = await axios.patch("/match/move/" + matchId, {
+			player: player,
+			move: i,
+		})
+		console.log(data)
+		let player1Moves = data.match.player1Moves
+		let player2Moves = data.match.player2Moves
 		setGameArr((gameArr) => {
 			const newGameArr = [...gameArr]
-			newGameArr[i] = turn ? "X" : "O"
-			setTurn(!turn)
+			player1Moves.forEach((move) => {
+				newGameArr[move] = "X"
+			})
+			player2Moves.forEach((move) => {
+				newGameArr[move] = "O"
+			})
 			return newGameArr
 		})
 		console.log(gameArr)
 	}
-	const [gameArr, setGameArr] = React.useState(array)
-	const [turn, setTurn] = React.useState(true)
 	return (
 		<Box
 			sx={{
