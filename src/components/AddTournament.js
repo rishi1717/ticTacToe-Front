@@ -15,9 +15,11 @@ import {
 } from "@mui/material"
 import React from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import axios from "../axios"
 
 function AddTournament() {
+	const navigate = useNavigate()
 	const user = useSelector((state) => state.user.user)
 	const [name, setName] = React.useState("")
 	const [players, setPlayers] = React.useState(4)
@@ -68,6 +70,7 @@ function AddTournament() {
 			}
 			console.log(data)
 			const res = await axios.post("/tournament", data)
+			navigate("/tournament", { state: { tournament: res.data.tournament } })
 		} catch (err) {
 			console.log(err)
 		}
@@ -78,7 +81,7 @@ function AddTournament() {
 			<Paper
 				sx={{
 					mx: 6,
-                    boxShadow: "0.2px 1px 5px #888888",
+					boxShadow: "0.2px 1px 5px #888888",
 				}}
 			>
 				<Typography

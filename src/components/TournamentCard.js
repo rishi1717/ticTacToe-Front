@@ -2,17 +2,23 @@ import { Button, Grid, Paper, Typography } from "@mui/material"
 import axios from "../axios"
 import React from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 function TournamentCard({ tournament }) {
-    const user = useSelector((state) => state.user.user)
+	const navigate = useNavigate()
+	const user = useSelector((state) => state.user.user)
+
 	const handleJoin = async (id) => {
 		try {
-			const { data } = await axios.patch(`/tournament/join/${id}`,{user: user._id})
-			console.log(data)
+			const { data } = await axios.patch(`/tournament/join/${id}`, {
+				user: user._id,
+			})
+			navigate(`/tournament`, { state: { tournament: data.tournament } })
 		} catch (err) {
 			console.log(err.message)
 		}
 	}
+	
 	return (
 		<Paper
 			sx={{
