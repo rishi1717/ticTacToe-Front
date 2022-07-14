@@ -25,6 +25,7 @@ import AdminUsers from "./pages/admin/AdminUsers"
 import AdminExpenses from "./pages/admin/AdminExpenses"
 import AdminTournaments from "./pages/admin/AdminTournaments"
 import Tournaments from "./pages/Tournaments"
+import TournamentPage from "./pages/TournamentPage"
 
 dotenv.config()
 
@@ -71,6 +72,7 @@ function App() {
 							<Route path="/game" element={<GamePage />} />
 							<Route path="/selectlevel" element={<SelectLevel />} />
 							<Route path="/tournaments" element={<Tournaments />} />
+							<Route path="/tournament" element={<TournamentPage />} />
 
 							<Route path="/admin" element={<AdminLanding />} />
 							<Route path="/admin/dashboard" element={<AdminDash />} />
