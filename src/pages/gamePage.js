@@ -22,13 +22,13 @@ function GamePage(props) {
 			try {
 				const { data } = await axios.get("/match/details/" + match._id)
 				setMatchData(data.match)
-				console.log(data.matcch)
 				if (!data.match) {
 					navigate("/friendlist")
 				}
 				if (data.match.status !== "requested") {
 					setWaitingForOpponent(false)
 				}
+				console.log(data.match)
 				if (data.match.winner) {
 					setWinner(data.match.winner.userName)
 				}
@@ -49,90 +49,97 @@ function GamePage(props) {
 	})
 
 	socket.on("matchUpdate", () => {
-		console.log("match update")
+		setUpdate(!update)
+	})
+	socket.on("winnerUpdate", () => {
+		console.log("winner update")
 		setUpdate(!update)
 	})
 
 	return (
-		<div>
-			<UserNavBar />
-			{waitingForOpponent && (
-				<>
-					<Box
-						sx={{
-							position: "fixed",
-							height: "89vh",
-							width: "100%",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							backgroundColor: "rgba(0,0,0,.75)",
-						}}
-					>
-						<Paper
-							sx={{
-								padding: "5rem",
-							}}
-						>
-							<Typography>Waiting For Opponent to Connect</Typography>
-						</Paper>
-					</Box>
-				</>
-			)}
-			{winner && (
-				<>
-					<Box
-						sx={{
-							position: "fixed",
-							height: "89vh",
-							width: "100%",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							backgroundColor: "rgba(0,0,0,.75)",
-						}}
-					>
-						<Paper
-							sx={{
-								padding: "5rem",
-								display: "flex",
-								flexDirection: "column",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							<Typography>{winner} Won</Typography>
-							<Button
+		<>
+			{loaded && (
+				<div>
+					<UserNavBar />
+					{waitingForOpponent && (
+						<>
+							<Box
 								sx={{
-									marginTop: "1rem",
-								}}
-								onClick={() => {
-									navigate("/friendlist")
-									setLoaded(false)
-									setMatchData({})
-									setWinner("")
-									setWaitingForOpponent(true)
+									position: "fixed",
+									height: "89vh",
+									width: "100%",
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									backgroundColor: "rgba(0,0,0,.75)",
 								}}
 							>
-								Leave
-							</Button>
-						</Paper>
-					</Box>
-				</>
+								<Paper
+									sx={{
+										padding: "5rem",
+									}}
+								>
+									<Typography>
+										Waiting For Opponent to Connect
+									</Typography>
+								</Paper>
+							</Box>
+						</>
+					)}
+					{winner && (
+						<>
+							<Box
+								sx={{
+									position: "fixed",
+									height: "89vh",
+									width: "100%",
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									backgroundColor: "rgba(0,0,0,.75)",
+								}}
+							>
+								<Paper
+									sx={{
+										padding: "5rem",
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "center",
+										alignItems: "center",
+									}}
+								>
+									<Typography>{winner} Won</Typography>
+									<Button
+										sx={{
+											marginTop: "1rem",
+										}}
+										onClick={() => {
+											navigate("/friendlist")
+											setLoaded(false)
+											setMatchData({})
+											setWinner("")
+											setWaitingForOpponent(true)
+										}}
+									>
+										Leave
+									</Button>
+								</Paper>
+							</Box>
+						</>
+					)}
+
+					<>
+						<GameCard match={matchData} />
+						<GameBoard
+							match={matchData}
+							update={update}
+							setUpdate={setUpdate}
+							setWinner={setWinner}
+						/>
+					</>
+				</div>
 			)}
-			{console.log(matchData, "GAME PAGE")}
-			{loaded && (
-				<>
-					<GameCard match={matchData} />
-					<GameBoard
-						match={matchData}
-						update={update}
-						setUpdate={setUpdate}
-						setWinner={setWinner}
-					/>
-				</>
-			)}
-		</div>
+		</> 
 	)
 }
 

@@ -10,7 +10,6 @@ const array = new Array(9).fill(null)
 function GameBoard({ match, update, setUpdate, setWinner }) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
-	console.log(match)
 	let player = match.player1._id === user._id ? "player1" : "player2"
 	const [gameArr, setGameArr] = React.useState(array)
 	const [turn, setTurn] = React.useState(true)
