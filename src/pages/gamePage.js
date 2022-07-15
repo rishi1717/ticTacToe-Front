@@ -44,17 +44,26 @@ function GamePage(props) {
 		}
 	}, [matchData])
 
-	socket.on("acceptMatch", () => {
-		setUpdate(!update)
-	})
+	useEffect(() => {
+		socket.on("acceptMatch", () => {
+			console.log("accepted match")
+			setUpdate(!update)
+		})
 
-	socket.on("matchUpdate", () => {
-		setUpdate(!update)
-	})
-	socket.on("winnerUpdate", () => {
-		console.log("winner update")
-		setUpdate(!update)
-	})
+		socket.on("matchUpdate", () => {
+			console.log("updated match")
+			setUpdate(!update)
+		})
+		socket.on("winnerUpdate", () => {
+			console.log("winner")
+			setUpdate(!update)
+		})
+		return () => {
+			socket.off("acceptMatch")
+			socket.off("matchUpdate")
+			socket.off("winnerUpdate")
+		}
+	}, [])
 
 	return (
 		<>
@@ -139,7 +148,7 @@ function GamePage(props) {
 					</>
 				</div>
 			)}
-		</> 
+		</>
 	)
 }
 

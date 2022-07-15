@@ -57,13 +57,20 @@ function FriendList() {
 		}
 	}
 
-	socket.on("onlineUpdate", () => {
-		setState(!state)
-	})
-	socket.on("matchRequest", () => {
-		console.log("match request")
-		setMatchReqState(!mathcReqState)
-	})
+	useEffect(() => {
+		socket.on("onlineUpdate", () => {
+			setState(!state)
+			console.log("online update", state)
+		})
+		socket.on("matchRequest", () => {
+			setMatchReqState(!mathcReqState)
+			console.log("match request", mathcReqState)
+		})
+		return () => {
+			socket.off("onlineUpdate")
+			socket.off("matchRequest")
+		}
+	}, [])
 
 	return (
 		<>

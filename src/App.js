@@ -50,7 +50,13 @@ function App() {
 	}
 
 	useEffect(() => {
+		const socket = io(process.env.REACT_APP_SERVER)
 		connectUser()
+		return () => {
+			socket.off("connect")
+			socket.off("disconnect")
+			socket.off("connection")
+		}
 	}, [user])
 
 	return (
@@ -77,8 +83,14 @@ function App() {
 							<Route path="/admin" element={<AdminLanding />} />
 							<Route path="/admin/dashboard" element={<AdminDash />} />
 							<Route path="/admin/users" element={<AdminUsers />} />
-							<Route path="/admin/expenses" element={<AdminExpenses />} />
-							<Route path="/admin/tournaments" element={<AdminTournaments />} />
+							<Route
+								path="/admin/expenses"
+								element={<AdminExpenses />}
+							/>
+							<Route
+								path="/admin/tournaments"
+								element={<AdminTournaments />}
+							/>
 						</Routes>
 					</BrowserRouter>
 				</ThemeProvider>
