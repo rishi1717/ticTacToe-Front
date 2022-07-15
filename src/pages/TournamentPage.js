@@ -6,8 +6,11 @@ import TournamentInfoCard from "../components/TournamentInfoCard"
 import TournamentVsDetails from "../components/TournamentVsDetails"
 import { useState } from "react"
 import { Typography } from "@mui/material"
+import { io } from "socket.io-client"
 
 function TournamentPage() {
+	const socket = io(process.env.REACT_APP_SERVER)
+	const [update, setUpdate] = useState(false)
 	const [tournament, setTournament] = useState(useLocation().state.tournament)
 	useEffect(() => {
 		;(async () => {
@@ -18,7 +21,13 @@ function TournamentPage() {
 				console.log(err.message)
 			}
 		})()
-	}, [])
+	}, [update])
+	useEffect(() => {
+		socket.on("playerJoined", () => {
+			setUpdate(!update)
+			console.log("player joined")
+		})
+	})
 	return (
 		<div>
 			<UserNavBar />
@@ -27,7 +36,7 @@ function TournamentPage() {
 					color: "#90CAF9",
 					fontSize: "1.4rem",
 					mx: "1rem",
-          mt: "1rem",
+					mt: "1rem",
 					px: "1rem",
 				}}
 			>

@@ -78,7 +78,7 @@ export default function UserNavBar() {
 								component="div"
 								display={{ xs: "none", sm: "block" }}
 							>
-								1000 Tics
+								{user.walletAmount} Tics
 							</Typography>
 							<IconButton
 								size="large"
