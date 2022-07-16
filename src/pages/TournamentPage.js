@@ -10,7 +10,7 @@ import { Typography } from "@mui/material"
 
 function TournamentPage() {
 	// const socket = io(process.env.REACT_APP_SERVER)
-	const [update, setUpdate] = useState(false)
+	// const [update, setUpdate] = useState(false)
 	const [tournament, setTournament] = useState(useLocation().state.tournament)
 
 	useEffect(() => {
@@ -22,7 +22,7 @@ function TournamentPage() {
 				console.log(err.message)
 			}
 		})()
-	}, [update])
+	}, [])
 
 	// useEffect(() => {
 	// 	socket.on("playerJoined", () => {

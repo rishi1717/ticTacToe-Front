@@ -2,40 +2,26 @@ import { Button, Grid, Paper, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import React, { useEffect, useRef, useState } from "react"
 import SendIcon from "@mui/icons-material/Send"
+import { io } from "socket.io-client"
 
-const staticMessages = [
-	{ user: "one", message: "Hello" },
-	{ user: "two", message: "Hi" },
-	{ user: "one", message: "How are you?" },
-	{ user: "two", message: "I'm fine" },
-	{ user: "one", message: "What are you doing rn?" },
-	{ user: "two", message: "I'm playing a game" },
-	{ user: "one", message: "I'm playing a game too" },
-	{ user: "two", message: "What game are you playing?" },
-	{ user: "one", message: "I'm playing tic tac toe" },
-	{ user: "two", message: "I'm playing that too" },
-	{ user: "one", message: "I'm playing with someone" },
-	{ user: "two", message: "I'm playing with someone too" },
-	{ user: "one", message: "I'm chatting with that guy" },
-	{ user: "two", message: "I'm chatting with that guy too" },
-	{ user: "one", message: "Wow!!" },
-	{ user: "two", message: "Wow!!" },
-]
+function ChatBox({ user, matchData, messages, setMessages }) {
+	const socket = io(process.env.REACT_APP_SERVER)
 
-function ChatBox() {
 	const bottomRef = useRef(null)
 
 	const [message, setMessage] = useState("")
-
-	const [messages, setMessages] = useState(staticMessages)
 
 	const handleChange = (event) => {
 		setMessage(event.target.value)
 	}
 
 	const handleSendMessage = () => {
-		console.log(messages)
-		setMessages([...messages, { user: "one", message }])
+		socket.emit("newMessage", {
+			sender: user._id,
+			matchData: matchData,
+			message: message,
+		})
+		setMessages([...messages, { sender: user._id, message: message }])
 		setMessage("")
 	}
 
@@ -51,17 +37,45 @@ function ChatBox() {
 					margin: 2,
 				}}
 			>
-				<Typography
+				<Grid
 					sx={{
-						fontSize: "1.1rem",
 						display: "flex",
-						justifyContent: "center",
-						fontWeight: "bold",
-						padding: 1,
+						justifyContent: "space-between",
 					}}
 				>
-					Chatbox
-				</Typography>
+					<Typography
+						sx={{
+							fontSize: "0.8rem",
+							display: "flex",
+							justifyContent: "center",
+							paddingTop: 2,
+						}}
+					>
+						{matchData.player1.userName}
+					</Typography>
+					<Typography
+						sx={{
+							fontSize: "1.1rem",
+							display: "flex",
+							justifyContent: "center",
+							fontWeight: "bold",
+							padding: 1,
+							color: "#4EADFE",
+						}}
+					>
+						Chat
+					</Typography>
+					<Typography
+						sx={{
+							fontSize: "0.8rem",
+							display: "flex",
+							justifyContent: "center",
+							paddingTop: 2,
+						}}
+					>
+						{matchData.player2.userName}
+					</Typography>
+				</Grid>
 				<Grid
 					sx={{
 						height: "67vh",
@@ -84,7 +98,9 @@ function ChatBox() {
 							sx={{
 								display: "flex",
 								justifyContent:
-									message.user === "one" ? "flex-end" : "flex-start",
+									message.sender === user._id
+										? "flex-end"
+										: "flex-start",
 							}}
 						>
 							<Paper
@@ -96,20 +112,20 @@ function ChatBox() {
 									px: 2,
 									py: 0.8,
 									borderRadius:
-										message.user === "one"
+										message.sender === user._id
 											? " 0.7rem 0 0.7rem 0.7rem"
 											: "0 0.7rem 0.7rem 0.7rem",
 								}}
 								elevation={10}
 							>
-								{message.user !== "one" && (
+								{message.user === user._id && (
 									<span
 										style={{
 											fontSize: "0.8rem",
 											color: "grey",
 										}}
 									>
-										{message.user}
+										{message.sender}
 									</span>
 								)}
 								{message.message}

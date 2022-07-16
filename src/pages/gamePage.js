@@ -6,30 +6,33 @@ import UserNavBar from "../components/navbar"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Box, Button, Grid, Paper, Typography } from "@mui/material"
 import ChatBox from "../components/ChatBox"
-// import { io } from "socket.io-client"
+import { io } from "socket.io-client"
+import { useSelector } from "react-redux"
 
 function GamePage(props) {
+	const user = useSelector((state) => state.user.user)
 	const navigate = useNavigate()
 	const match = useLocation().state.match
 	const [matchData, setMatchData] = useState({})
+	const [messages, setMessages] = useState(matchData.messages)
 	const [winner, setWinner] = React.useState("")
 	const [update, setUpdate] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
 	const [loaded, setLoaded] = useState(false)
-	// const socket = io(process.env.REACT_APP_SERVER)
+	const socket = io(process.env.REACT_APP_SERVER)
 
 	useEffect(() => {
 		;(async () => {
 			try {
 				const { data } = await axios.get("/match/details/" + match._id)
 				setMatchData(data.match)
+				setMessages(data.match.messages)
 				if (!data.match) {
 					navigate("/friendlist")
 				}
 				if (data.match.status !== "requested") {
 					setWaitingForOpponent(false)
 				}
-				console.log(data.match)
 				if (data.match.winner) {
 					setWinner(data.match.winner.userName)
 				}
@@ -40,32 +43,41 @@ function GamePage(props) {
 		})()
 	}, [update])
 
-	// useEffect(() => {
-	// 	if (matchData.player1) {
-	// 		setLoaded(true)
-	// 	}
-	// }, [matchData])
+	useEffect(() => {
+		if (matchData.player1) {
+			socket.emit("setup", user)
 
-	// useEffect(() => {
-	// 	socket.on("acceptMatch", () => {
-	// 		console.log("accepted match")
-	// 		setUpdate(!update)
-	// 	})
+			socket.on("connect", () => {
+				console.log("connected")
+			})
 
-	// 	socket.on("matchUpdate", () => {
-	// 		console.log("updated match")
-	// 		setUpdate(!update)
-	// 	})
-	// 	socket.on("winnerUpdate", () => {
-	// 		console.log("winner")
-	// 		setUpdate(!update)
-	// 	})
-	// 	return () => {
-	// 		socket.off("acceptMatch")
-	// 		socket.off("matchUpdate")
-	// 		socket.off("winnerUpdate")
-	// 	}
-	// }, [])
+			socket.emit("joinMatch", matchData._id)
+
+			socket.on("messageRecieved", (message) => {
+				setMessages(message.messages)
+			})
+		}
+	}, [matchData])
+
+	useEffect(() => {
+		// socket.on("acceptMatch", () => {
+		// 	console.log("accepted match")
+		// 	setUpdate(!update)
+		// })
+		// socket.on("matchUpdate", () => {
+		// 	console.log("updated match")
+		// 	setUpdate(!update)
+		// })
+		// socket.on("winnerUpdate", () => {
+		// 	console.log("winner")
+		// 	setUpdate(!update)
+		// })
+		// return () => {
+		// 	socket.off("acceptMatch")
+		// 	socket.off("matchUpdate")
+		// 	socket.off("winnerUpdate")
+		// }
+	}, [])
 
 	return (
 		<>
@@ -165,7 +177,12 @@ function GamePage(props) {
 									width: { xs: "100%", md: "29%" },
 								}}
 							>
-								<ChatBox />
+								<ChatBox
+									user={user}
+									messages={messages}
+									matchData={matchData}
+									setMessages={setMessages}
+								/>
 							</Grid>
 						</Grid>
 					</>

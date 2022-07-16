@@ -13,7 +13,7 @@ dotenv.config()
 
 function FriendList() {
 	const [state, setState] = useState(true)
-	const [mathcReqState, setMatchReqState] = useState(true)
+	// const [mathcReqState, setMatchReqState] = useState(true)
 	// const socket = io(process.env.REACT_APP_SERVER)
 	const [search, setSearch] = useState("")
 	const [friendReq, setFriendReq] = useState([])
@@ -40,7 +40,7 @@ function FriendList() {
 			const matchReqRecieved = await axios.get("/match/" + user._id)
 			setMatchRequests(matchReqRecieved.data)
 		})()
-	}, [mathcReqState])
+	}, [])
 
 	const handleChange = (e) => {
 		setSearch(e.target.value)

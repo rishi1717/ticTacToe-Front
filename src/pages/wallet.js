@@ -6,7 +6,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material"
-import React, { useEffect } from "react"
+import React from "react"
 import Navbar from "../components/navbar"
 import { useSelector } from "react-redux"
 
