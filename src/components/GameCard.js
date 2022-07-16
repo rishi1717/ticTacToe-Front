@@ -5,7 +5,6 @@ function GameCard({ match }) {
 	return (
 		<Box
 			sx={{
-				width: { xs: "100", md: "70%" },
 				backgroundColor: "#272727",
 				margin: "1rem",
 				padding: "2rem",
@@ -22,6 +21,7 @@ function GameCard({ match }) {
 					xs={12}
 					sx={{
 						display: "flex",
+						flexDirection: { xs: "column", md: "row" },
 						justifyContent: "center",
 						alignItems: "center",
 					}}
@@ -68,10 +68,13 @@ function GameCard({ match }) {
 					xs={12}
 					sx={{
 						display: "flex",
+						flexDirection: { xs: "column", md: "row" },
 						justifyContent: "center",
 						alignItems: "center",
 					}}
 				>
+					<Grid item order={{ xs: 2, sm: 1 }}></Grid>
+					<Grid item order={{ xs: 1, sm: 1 }}></Grid>
 					<Paper
 						sx={{
 							display: "flex",

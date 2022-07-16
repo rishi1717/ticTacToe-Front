@@ -8,15 +8,11 @@ import {
 } from "@mui/material"
 import React, { useEffect } from "react"
 import Navbar from "../components/navbar"
-import { io } from "socket.io-client"
 import { useSelector } from "react-redux"
 
 function Wallet() {
 	const user = useSelector((state) => state.user.user)
-	useEffect(() => {
-		const socket = io("http://localhost:3001")
-		socket.emit("test", "wallet", 23)
-	}, [])
+
 	return (
 		<>
 			<Navbar />

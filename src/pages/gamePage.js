@@ -4,8 +4,9 @@ import GameBoard from "../components/GameBoard"
 import GameCard from "../components/GameCard"
 import UserNavBar from "../components/navbar"
 import { useLocation, useNavigate } from "react-router-dom"
-import { Box, Button, Paper, Typography } from "@mui/material"
-import { io } from "socket.io-client"
+import { Box, Button, Grid, Paper, Typography } from "@mui/material"
+import ChatBox from "../components/ChatBox"
+// import { io } from "socket.io-client"
 
 function GamePage(props) {
 	const navigate = useNavigate()
@@ -15,7 +16,7 @@ function GamePage(props) {
 	const [update, setUpdate] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
 	const [loaded, setLoaded] = useState(false)
-	const socket = io(process.env.REACT_APP_SERVER)
+	// const socket = io(process.env.REACT_APP_SERVER)
 
 	useEffect(() => {
 		;(async () => {
@@ -32,38 +33,39 @@ function GamePage(props) {
 				if (data.match.winner) {
 					setWinner(data.match.winner.userName)
 				}
+				setLoaded(true)
 			} catch (err) {
 				console.log(err.message)
 			}
 		})()
 	}, [update])
 
-	useEffect(() => {
-		if (matchData.player1) {
-			setLoaded(true)
-		}
-	}, [matchData])
+	// useEffect(() => {
+	// 	if (matchData.player1) {
+	// 		setLoaded(true)
+	// 	}
+	// }, [matchData])
 
-	useEffect(() => {
-		socket.on("acceptMatch", () => {
-			console.log("accepted match")
-			setUpdate(!update)
-		})
+	// useEffect(() => {
+	// 	socket.on("acceptMatch", () => {
+	// 		console.log("accepted match")
+	// 		setUpdate(!update)
+	// 	})
 
-		socket.on("matchUpdate", () => {
-			console.log("updated match")
-			setUpdate(!update)
-		})
-		socket.on("winnerUpdate", () => {
-			console.log("winner")
-			setUpdate(!update)
-		})
-		return () => {
-			socket.off("acceptMatch")
-			socket.off("matchUpdate")
-			socket.off("winnerUpdate")
-		}
-	}, [])
+	// 	socket.on("matchUpdate", () => {
+	// 		console.log("updated match")
+	// 		setUpdate(!update)
+	// 	})
+	// 	socket.on("winnerUpdate", () => {
+	// 		console.log("winner")
+	// 		setUpdate(!update)
+	// 	})
+	// 	return () => {
+	// 		socket.off("acceptMatch")
+	// 		socket.off("matchUpdate")
+	// 		socket.off("winnerUpdate")
+	// 	}
+	// }, [])
 
 	return (
 		<>
@@ -138,13 +140,34 @@ function GamePage(props) {
 					)}
 
 					<>
-						<GameCard match={matchData} />
-						<GameBoard
-							match={matchData}
-							update={update}
-							setUpdate={setUpdate}
-							setWinner={setWinner}
-						/>
+						<Grid
+							container
+							spacing={0}
+							sx={{
+								display: "flex",
+							}}
+						>
+							<Grid
+								sx={{
+									width: { xs: "100%", md: "70%" },
+								}}
+							>
+								<GameCard match={matchData} />
+								<GameBoard
+									match={matchData}
+									update={update}
+									setUpdate={setUpdate}
+									setWinner={setWinner}
+								/>
+							</Grid>
+							<Grid
+								sx={{
+									width: { xs: "100%", md: "29%" },
+								}}
+							>
+								<ChatBox />
+							</Grid>
+						</Grid>
 					</>
 				</div>
 			)}

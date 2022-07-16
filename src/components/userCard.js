@@ -7,7 +7,7 @@ import image from "../assets/images/hacker.png"
 import { Button } from "@mui/material"
 import LevelContext from "../contextApi/levelContext"
 import { useNavigate } from "react-router-dom"
-import { io } from "socket.io-client"
+// import { io } from "socket.io-client"
 import axios from "../axios"
 
 export default function UserCard(props) {
@@ -15,14 +15,14 @@ export default function UserCard(props) {
 	const { user, matchRequests } = props
 	const levels = useContext(LevelContext)
 	let friendReqId = ""
-	const socket = io(process.env.REACT_APP_SERVER)
+	// const socket = io(process.env.REACT_APP_SERVER)
 
 	const handleAcceptMatch = async (id) => {
 		try {
 			let { data } = await axios.patch(`/match/${id}`, {})
-			socket.emit("acceptMatch", {
-				to: data.match.player1.socketId,
-			})
+			// socket.emit("acceptMatch", {
+			// 	to: data.match.player1.socketId,
+			// })
 			navigate("/game", { state: { match: data.match } })
 		} catch (err) {
 			console.log(err)
