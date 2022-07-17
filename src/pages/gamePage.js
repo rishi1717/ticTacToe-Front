@@ -47,7 +47,7 @@ function GamePage(props) {
 	useEffect(() => {
 		if (matchData.player1) {
 			socket.emit("setup", user)
-
+			
 			socket.on("connect", () => {
 				console.log("connected")
 			})
@@ -60,6 +60,7 @@ function GamePage(props) {
 
 			socket.on("moveMade", (data) => {
 				setUpdate(!update)
+				console.log(data)
 			})
 		}
 	})

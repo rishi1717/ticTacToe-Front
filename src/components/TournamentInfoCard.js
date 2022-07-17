@@ -8,8 +8,7 @@ function TournamentInfoCard({ tournament }) {
 				sx={{
 					padding: "1rem",
 					margin: "1rem",
-					borderRadius: "1rem",
-					width: { xs: "100", md: "70%" },
+					borderRadius: 2,
 				}}
 			>
 				<Grid
