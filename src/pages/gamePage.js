@@ -56,28 +56,12 @@ function GamePage(props) {
 			socket.on("messageRecieved", (message) => {
 				setMessages(message.messages)
 			})
-		}
-	}, [matchData])
 
-	useEffect(() => {
-		// socket.on("acceptMatch", () => {
-		// 	console.log("accepted match")
-		// 	setUpdate(!update)
-		// })
-		// socket.on("matchUpdate", () => {
-		// 	console.log("updated match")
-		// 	setUpdate(!update)
-		// })
-		// socket.on("winnerUpdate", () => {
-		// 	console.log("winner")
-		// 	setUpdate(!update)
-		// })
-		// return () => {
-		// 	socket.off("acceptMatch")
-		// 	socket.off("matchUpdate")
-		// 	socket.off("winnerUpdate")
-		// }
-	}, [])
+			socket.on("moveMade", (data) => {
+				setUpdate(!update)
+			})
+		}
+	})
 
 	return (
 		<>

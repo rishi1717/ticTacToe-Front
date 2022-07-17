@@ -7,14 +7,14 @@ import axios from "../axios"
 import { useSelector } from "react-redux"
 import SearchCard from "../components/searchCard"
 import FriendReqCard from "../components/friendReqCard"
-// import { io } from "socket.io-client"
+import { io } from "socket.io-client"
 import dotenv from "dotenv"
 dotenv.config()
 
 function FriendList() {
 	const [state, setState] = useState(true)
-	// const [mathcReqState, setMatchReqState] = useState(true)
-	// const socket = io(process.env.REACT_APP_SERVER)
+	const [mathcReqState, setMatchReqState] = useState(true)
+	const socket = io(process.env.REACT_APP_SERVER)
 	const [search, setSearch] = useState("")
 	const [friendReq, setFriendReq] = useState([])
 	const [matchRequests, setMatchRequests] = useState([])
@@ -57,20 +57,20 @@ function FriendList() {
 		}
 	}
 
-	// useEffect(() => {
-	// 	socket.on("onlineUpdate", () => {
-	// 		setState(!state)
-	// 		console.log("online update", state)
-	// 	})
-	// 	socket.on("matchRequest", () => {
-	// 		setMatchReqState(!mathcReqState)
-	// 		console.log("match request", mathcReqState)
-	// 	})
-	// 	return () => {
-	// 		socket.off("onlineUpdate")
-	// 		socket.off("matchRequest")
-	// 	}
-	// }, [])
+	useEffect(() => {
+		socket.on("onlineUpdate", () => {
+			setState(!state)
+			console.log("online update in friendlist", state)
+		})
+		socket.on("matchRequest", () => {
+			setMatchReqState(!mathcReqState)
+			console.log("match request", mathcReqState)
+		})
+		return () => {
+			socket.off("onlineUpdate")
+			socket.off("matchRequest")
+		}
+	})
 
 	return (
 		<>

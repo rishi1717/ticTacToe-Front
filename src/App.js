@@ -1,14 +1,14 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Landing from "./pages/landing"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-// import { useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { CssBaseline } from "@mui/material"
 import Login from "./pages/login"
 import Signup from "./pages/signup"
 import Profile from "./pages/profile"
 import Wallet from "./pages/wallet"
-// import { io } from "socket.io-client"
+import { io } from "socket.io-client"
 import dotenv from "dotenv"
 // import axios from "./axios"
 // import { setUser } from "./redux/userSlice"
@@ -31,9 +31,18 @@ dotenv.config()
 
 function App() {
 	// const dispatch = useDispatch()
-	// const user = useSelector((state) => state.user.user)
+	const user = useSelector((state) => state.user.user)
 	const [darkTheme, setDarkTheme] = React.useState(true)
-	// const socket = io(process.env.REACT_APP_SERVER)
+	const socket = io(process.env.REACT_APP_SERVER)
+
+	useEffect(() => {
+		if (user) {
+			socket.emit("online", user)
+		}
+		socket.on("onlineUpdate", () => {
+			console.log("online update in app")
+		})
+	}, [])
 
 	return (
 		<LevelProvider value={levels}>
