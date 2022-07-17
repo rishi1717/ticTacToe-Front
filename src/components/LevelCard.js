@@ -4,25 +4,30 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import { useSelector } from "react-redux"
 import axios from "../axios"
 import { useNavigate } from "react-router-dom"
+import { io } from "socket.io-client"
 
 function LevelCard(props) {
+	const socket = io(process.env.REACT_APP_SERVER)
 	const navigate = useNavigate()
 	const player1 = useSelector((state) => state.user.user._id)
 	const { level, player2 } = props
+
 	const handleMatchRequest = async (level) => {
 		try {
-			let res = await axios.post("/match", {
+			let { data } = await axios.post("/match", {
 				player1,
 				player2,
-                pointsToWin: level.pointsToWin,
+				pointsToWin: level.pointsToWin,
 				entryFee: level.entryFee,
-                winningAmount: level.winningAmount,
+				winningAmount: level.winningAmount,
 			})
-			navigate("/game", { state: { match: res.data.match } })
+			socket.emit("matchRequest", data.match) 
+			navigate("/game", { state: { match: data.match } })
 		} catch (err) {
 			console.log(err)
 		}
 	}
+
 	return (
 		<Grid
 			item
@@ -79,7 +84,9 @@ function LevelCard(props) {
 						py: 2,
 						borderRadius: 100,
 					}}
-					onClick={() => {handleMatchRequest(level)}}
+					onClick={() => {
+						handleMatchRequest(level)
+					}}
 				>
 					<ArrowForwardIosIcon />
 				</Button>

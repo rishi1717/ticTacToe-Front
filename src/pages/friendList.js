@@ -40,7 +40,7 @@ function FriendList() {
 			const matchReqRecieved = await axios.get("/match/" + user._id)
 			setMatchRequests(matchReqRecieved.data)
 		})()
-	}, [])
+	}, [mathcReqState])
 
 	const handleChange = (e) => {
 		setSearch(e.target.value)
@@ -58,11 +58,12 @@ function FriendList() {
 	}
 
 	useEffect(() => {
+		socket.emit('friendPage', user._id)
 		socket.on("onlineUpdate", () => {
 			setState(!state)
 			console.log("online update in friendlist", state)
 		})
-		socket.on("matchRequest", () => {
+		socket.on("gotMatchRequest", () => {
 			setMatchReqState(!mathcReqState)
 			console.log("match request", mathcReqState)
 		})

@@ -17,13 +17,13 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteUser } from "../redux/userSlice"
 import ThemeContext from "../contextApi/themeContext"
-// import { io } from "socket.io-client"
+import { io } from "socket.io-client"
 import dotenv from "dotenv"
 dotenv.config()
 
 function Profile() {
 	const [darkTheme, setDarkTheme] = useContext(ThemeContext)
-	// const socket = io(process.env.REACT_APP_SERVER)
+	const socket = io(process.env.REACT_APP_SERVER)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.user.user)
@@ -441,7 +441,7 @@ function Profile() {
 							}}
 							onClick={() => {
 								dispatch(deleteUser())
-								// socket.emit("disconnection",{_id:user._id})	
+								socket.emit("disconnection",{_id:user._id})	
 								navigate("/")
 							}}
 						>

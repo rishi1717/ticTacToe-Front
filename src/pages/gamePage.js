@@ -25,11 +25,12 @@ function GamePage(props) {
 		;(async () => {
 			try {
 				const { data } = await axios.get("/match/details/" + match._id)
-				setMatchData(data.match)
-				setMessages(data.match.messages)
 				if (!data.match) {
 					navigate("/friendlist")
 				}
+				setMatchData(data.match)
+				setMessages(data.match.messages)
+
 				if (data.match.status !== "requested") {
 					setWaitingForOpponent(false)
 				}

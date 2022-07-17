@@ -39,9 +39,6 @@ function App() {
 		if (user) {
 			socket.emit("online", user)
 		}
-		socket.on("onlineUpdate", () => {
-			console.log("online update in app")
-		})
 	}, [])
 
 	return (
