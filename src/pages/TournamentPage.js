@@ -9,6 +9,7 @@ import TournamentPlayers from "../components/TournamentPlayers"
 import TournamentChatBox from "../components/TournamentChatBox"
 import { useSelector } from "react-redux"
 import { io } from "socket.io-client"
+import TournamentFooter from "../components/TournamentFooter"
 
 function TournamentPage() {
 	const user = useSelector((state) => state.user.user)
@@ -30,7 +31,9 @@ function TournamentPage() {
 	}, [])
 
 	useEffect(() => {
+
 		socket.emit("setupTournament", user)
+
 		socket.on("connect", () => {
 			console.log("connected in tournament")
 		})
@@ -39,10 +42,14 @@ function TournamentPage() {
 
 		socket.on("tournamentMessageRecieved", (tournament) => {
 			console.log("message recieved in tournament")
-			// setUpdate(!update)
 			setMessages(tournament.messages)
 		})
-	}, [])
+
+		return () => {
+			socket.off("tournamentMessageRecieved")
+			socket.off("connect")
+		}
+	},[])
 
 	return (
 		<div>
@@ -62,6 +69,7 @@ function TournamentPage() {
 				<Grid item xs={12} md={8}>
 					<TournamentInfoCard tournament={tournament} />
 					<TournamentPlayers tournament={tournament} />
+					<TournamentFooter tournament={tournament} />
 				</Grid>
 				<Grid item xs={12} md={4}>
 					<TournamentChatBox

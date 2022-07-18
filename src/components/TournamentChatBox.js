@@ -34,7 +34,7 @@ function TournamentChatBox({ user, tournamentData, messages, setMessages }) {
 		<div>
 			<Paper
 				sx={{
-					height: "84vh",
+					height: "80vh",
 					margin: 2,
 				}}
 			>
@@ -44,16 +44,6 @@ function TournamentChatBox({ user, tournamentData, messages, setMessages }) {
 						justifyContent: "space-between",
 					}}
 				>
-					<Typography
-						sx={{
-							fontSize: "0.8rem",
-							display: "flex",
-							justifyContent: "center",
-							paddingTop: 2,
-						}}
-					>
-						{/* {tournamentData.player1.userName} */}
-					</Typography>
 					<Typography
 						sx={{
 							fontSize: "1.1rem",
@@ -66,20 +56,10 @@ function TournamentChatBox({ user, tournamentData, messages, setMessages }) {
 					>
 						Chat
 					</Typography>
-					<Typography
-						sx={{
-							fontSize: "0.8rem",
-							display: "flex",
-							justifyContent: "center",
-							paddingTop: 2,
-						}}
-					>
-						{/* {tournamentData.player2.userName} */}
-					</Typography>
 				</Grid>
 				<Grid
 					sx={{
-						height: "67vh",
+						height: "63vh",
 						overflowY: "scroll",
 						"&::-webkit-scrollbar": {
 							width: 5,
@@ -99,7 +79,7 @@ function TournamentChatBox({ user, tournamentData, messages, setMessages }) {
 							sx={{
 								display: "flex",
 								justifyContent:
-									message.sender === user._id
+									message.senderId === user._id
 										? "flex-end"
 										: "flex-start",
 							}}
@@ -113,13 +93,13 @@ function TournamentChatBox({ user, tournamentData, messages, setMessages }) {
 									px: 2,
 									py: 0.8,
 									borderRadius:
-										message.sender === user._id
+										message.senderId === user._id
 											? " 0.7rem 0 0.7rem 0.7rem"
 											: "0 0.7rem 0.7rem 0.7rem",
 								}}
 								elevation={10}
 							>
-								{message.user === user._id && (
+								{message.senderId !== user._id && (
 									<span
 										style={{
 											fontSize: "0.8rem",

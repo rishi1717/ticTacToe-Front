@@ -46,12 +46,9 @@ function GamePage(props) {
 
 	useEffect(() => {
 		if (matchData.player1) {
-			socket.emit("setup", user)
-			
-			socket.on("connect", () => {
-				console.log("connected")
-			})
 
+			socket.emit("setup", user)
+		
 			socket.emit("joinMatch", matchData._id)
 
 			socket.on("messageRecieved", (message) => {
@@ -62,6 +59,11 @@ function GamePage(props) {
 				setUpdate(!update)
 				console.log(data)
 			})
+		}
+		return () => {
+			socket.off("messageRecieved")
+			socket.off("moveMade")
+
 		}
 	})
 
