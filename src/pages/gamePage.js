@@ -8,6 +8,9 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material"
 import ChatBox from "../components/ChatBox"
 import { io } from "socket.io-client"
 import { useSelector } from "react-redux"
+import Swal from "sweetalert2"
+
+const array = new Array(9).fill(null)
 
 function GamePage(props) {
 	const user = useSelector((state) => state.user.user)
@@ -19,6 +22,7 @@ function GamePage(props) {
 	const [update, setUpdate] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
 	const [loaded, setLoaded] = useState(false)
+	const [gameArr, setGameArr] = useState(array)
 	const socket = io(process.env.REACT_APP_SERVER)
 
 	useEffect(() => {
@@ -45,10 +49,25 @@ function GamePage(props) {
 	}, [update])
 
 	useEffect(() => {
-		if (matchData.player1) {
+		socket.on("pointUpdate", () => {
+			console.log("point match")
+			setGameArr([])
+			setUpdate(!update)
+			Swal.fire({
+				title: "Game set",
+				color: "success",
+				timer: 2000,
+			})
+		})
+		return () => {
+			socket.off("pointUpdate")
+		}
+	}, [])
 
+	useEffect(() => {
+		if (matchData.player1) {
 			socket.emit("setup", user)
-		
+
 			socket.emit("joinMatch", matchData._id)
 
 			socket.on("messageRecieved", (message) => {
@@ -63,7 +82,6 @@ function GamePage(props) {
 		return () => {
 			socket.off("messageRecieved")
 			socket.off("moveMade")
-
 		}
 	})
 
@@ -158,6 +176,8 @@ function GamePage(props) {
 									update={update}
 									setUpdate={setUpdate}
 									setWinner={setWinner}
+									gameArr={gameArr}
+									setGameArr={setGameArr}
 								/>
 							</Grid>
 							<Grid

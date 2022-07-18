@@ -6,13 +6,13 @@ import { useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import Swal from "sweetalert2"
 
-const array = new Array(9).fill(null)
+// const array = new Array(9).fill(null)
 
-function GameBoard({ match, update, setUpdate, setWinner }) {
+function GameBoard({ match, update, setUpdate, setWinner, gameArr, setGameArr }) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
 	let player = match.player1._id === user._id ? "player1" : "player2"
-	const [gameArr, setGameArr] = React.useState(array)
+	// const [gameArr, setGameArr] = React.useState(array)
 	const [turn, setTurn] = React.useState(player === match.turn)
 	const socket = io(process.env.REACT_APP_SERVER)
 
@@ -42,21 +42,21 @@ function GameBoard({ match, update, setUpdate, setWinner }) {
 		})()
 	}, [update])
 
-	useEffect(() => {
-		socket.on("pointUpdate", () => {
-			console.log("point match")
-			setGameArr([])
-			setUpdate(!update)
-			Swal.fire({
-				title: "Game set",
-				color: "success",
-				timer: 2000,
-			})
-		})
-		return () => {
-			socket.off("pointUpdate")
-		}
-	}, [])
+	// useEffect(() => {
+	// 	socket.on("pointUpdate", () => {
+	// 		console.log("point match")
+	// 		setGameArr([])
+	// 		setUpdate(!update)
+	// 		Swal.fire({
+	// 			title: "Game set",
+	// 			color: "success",
+	// 			timer: 2000,
+	// 		})
+	// 	})
+	// 	return () => {
+	// 		socket.off("pointUpdate")
+	// 	}
+	// }, [])
 
 	const handleBoxClick = async (i) => {
 		if (!turn) {
