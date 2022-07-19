@@ -10,11 +10,11 @@ import TournamentChatBox from "../components/TournamentChatBox"
 import { useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import TournamentFooter from "../components/TournamentFooter"
+import TournamentMatchCard from "../components/TournamentMatchCard"
 
 function TournamentPage() {
 	const user = useSelector((state) => state.user.user)
 	const socket = io(process.env.REACT_APP_SERVER)
-	// const [update, setUpdate] = useState(false)
 	const [tournament, setTournament] = useState(useLocation().state.tournament)
 	const [messages, setMessages] = useState([])
 
@@ -31,7 +31,6 @@ function TournamentPage() {
 	}, [])
 
 	useEffect(() => {
-
 		socket.emit("setupTournament", user)
 
 		socket.on("connect", () => {
@@ -49,7 +48,7 @@ function TournamentPage() {
 			socket.off("tournamentMessageRecieved")
 			socket.off("connect")
 		}
-	},[])
+	}, [])
 
 	return (
 		<div>
@@ -69,6 +68,7 @@ function TournamentPage() {
 				<Grid item xs={12} md={8}>
 					<TournamentInfoCard tournament={tournament} />
 					<TournamentPlayers tournament={tournament} />
+					<TournamentMatchCard tournament={tournament} />
 					<TournamentFooter tournament={tournament} />
 				</Grid>
 				<Grid item xs={12} md={4}>
