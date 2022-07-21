@@ -17,6 +17,7 @@ function TournamentPage() {
 	const socket = io(process.env.REACT_APP_SERVER)
 	const [tournament, setTournament] = useState(useLocation().state.tournament)
 	const [messages, setMessages] = useState([])
+	const [nextMatches, setNextMatches] = useState({})
 
 	useEffect(() => {
 		;(async () => {
@@ -24,6 +25,10 @@ function TournamentPage() {
 				const { data } = await axios.get(`/tournament/${tournament._id}`)
 				setTournament(data.tournament)
 				setMessages(data.tournament.messages)
+				setNextMatches(data.tournament.nextMatches)
+				if (data.tournament.playersJoined === data.tournament.noOfPlayers) {
+					socket.emit("startTournament", data.tournament._id)
+				}
 			} catch (err) {
 				console.log(err.message)
 			}
@@ -42,6 +47,11 @@ function TournamentPage() {
 		socket.on("tournamentMessageRecieved", (tournament) => {
 			console.log("message recieved in tournament")
 			setMessages(tournament.messages)
+		})
+
+		socket.on("tournamentStarted", (tournament) => {
+			setNextMatches(tournament.nextMatches)
+			console.log(tournament)	
 		})
 
 		return () => {
@@ -68,7 +78,7 @@ function TournamentPage() {
 				<Grid item xs={12} md={8}>
 					<TournamentInfoCard tournament={tournament} />
 					<TournamentPlayers tournament={tournament} />
-					<TournamentMatchCard tournament={tournament} />
+					<TournamentMatchCard user={user} nextMatches={nextMatches} />
 					<TournamentFooter tournament={tournament} />
 				</Grid>
 				<Grid item xs={12} md={4}>

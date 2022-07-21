@@ -27,12 +27,17 @@ function TournamentPlayerCard({ player }) {
 					padding: "1rem",
 					margin: "1rem",
 					borderRadius: 2,
-					width: '100%',
+					width: "100%",
+					height: { xs: 100, sm: 100 },
 				}}
 			>
-				<Typography sx={{}}>{playerDet.fullName}</Typography>
-				<Typography sx={{ color: "gray" }}>{playerDet.userName}</Typography>
-				<Typography sx={{ color: "gray" }}>
+				<Typography sx={{ fontSize: "0.9rem" }}>
+					{playerDet.fullName}
+				</Typography>
+				<Typography sx={{ color: "gray", fontSize: "0.9rem" }}>
+					{playerDet.userName}
+				</Typography>
+				<Typography sx={{ color: "gray", fontSize: "0.9rem" }}>
 					{levels[playerDet.level]}
 				</Typography>
 			</Paper>

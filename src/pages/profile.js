@@ -441,7 +441,8 @@ function Profile() {
 							}}
 							onClick={() => {
 								dispatch(deleteUser())
-								socket.emit("disconnection",{_id:user._id})	
+								socket.disconnect()
+								// socket.emit("disconnection",{_id:user._id})	
 								navigate("/")
 							}}
 						>

@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from "@mui/material"
+import { Box, Grid, Paper, Typography } from "@mui/material"
 import React from "react"
 import EmptyPlayerCard from "./EmptyPlayerCard"
 import TournamentPlayerCard from "./TournamentPlayerCard"
@@ -6,7 +6,9 @@ import TournamentPlayerCard from "./TournamentPlayerCard"
 function TournamentPlayers({ tournament }) {
 	const empty = tournament.noOfPlayers - tournament.playersJoined
 	const emptyArray = Array.from({ length: empty }, (x, index) => (
-		<Grid item xs={3} key={index}>
+		<Grid item xs={3} key={index} sx={{
+			mr: "0.5rem",
+		}}>
 			<EmptyPlayerCard />
 		</Grid>
 	))
@@ -20,14 +22,29 @@ function TournamentPlayers({ tournament }) {
 				}}
 			>
 				<Typography>Players</Typography>
-				<Grid container spacing={2} pr={3} >
+				<Box
+					spacing={2}
+					pr={3}
+					sx={{
+						overflowX: "scroll",
+						display: "flex",
+						"&::-webkit-scrollbar": {
+							height: 8,
+						},
+						"&::-webkit-scrollbar-track": {
+							background: "#f1f1f1",
+						},
+						"&::-webkit-scrollbar-thumb": {
+							background: "#888888",
+							borderRadius: 2,
+						},
+					}}
+				>
 					{tournament.players.map((player) => (
-						<Grid item xs={3} key={player}>
-							<TournamentPlayerCard player={player} />
-						</Grid>
+						<TournamentPlayerCard key={player} player={player} />
 					))}
 					{emptyArray}
-				</Grid>
+				</Box>
 			</Paper>
 		</>
 	)
