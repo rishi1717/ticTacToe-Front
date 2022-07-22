@@ -1,8 +1,8 @@
-import { Box, Grid, Paper, Typography } from "@mui/material"
+import { Box, Paper, Typography } from "@mui/material"
 import React from "react"
 import TournamentSingleMatchCard from "./TournamentSingleMatchCard"
 
-function TournamentMatchCard({ nextMatches, user }) {
+function TournamentMatchCard({ nextMatches, user, tournament }) {
 	return (
 		<div>
 			<Paper
@@ -37,6 +37,7 @@ function TournamentMatchCard({ nextMatches, user }) {
 								key={match.player1._id}
 								match={match}
 								user={user}
+								tournament={tournament}
 							/>
 						))}
 				</Box>

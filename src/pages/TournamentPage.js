@@ -78,7 +78,11 @@ function TournamentPage() {
 				<Grid item xs={12} md={8}>
 					<TournamentInfoCard tournament={tournament} />
 					<TournamentPlayers tournament={tournament} />
-					<TournamentMatchCard user={user} nextMatches={nextMatches} />
+					<TournamentMatchCard
+						tournament={tournament}
+						user={user}
+						nextMatches={nextMatches}
+					/>
 					<TournamentFooter tournament={tournament} />
 				</Grid>
 				<Grid item xs={12} md={4}>
