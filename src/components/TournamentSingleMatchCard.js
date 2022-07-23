@@ -2,10 +2,10 @@ import { Button, Grid, Paper, Typography } from "@mui/material"
 import axios from "../axios"
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import { io } from "socket.io-client"
+// import { io } from "socket.io-client"
 
 function TournamentSingleMatchCard({ match, user, tournament }) {
-	const socket = io(process.env.REACT_APP_SERVER)
+	// const socket = io(process.env.REACT_APP_SERVER)
 	const navigate = useNavigate()
 
 	const handleTournamentMatchRequest = async () => {
@@ -15,8 +15,7 @@ function TournamentSingleMatchCard({ match, user, tournament }) {
 				player2: match.player2._id,
 				pointsToWin: tournament.pointsToWin,
 			})
-			console.log(data.match)
-			// navigate("/game", { state: { match: data.match } })
+			navigate("/tournamentmatch", { state: { match: data.match } })
 		} catch (err) {
 			console.log(err)
 		}

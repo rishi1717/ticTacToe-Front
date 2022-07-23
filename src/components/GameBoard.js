@@ -6,20 +6,24 @@ import { useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import Swal from "sweetalert2"
 
-// const array = new Array(9).fill(null)
-
-function GameBoard({ match, update, setUpdate, setWinner, gameArr, setGameArr }) {
+function GameBoard({
+	match,
+	update,
+	setUpdate,
+	setWinner,
+	gameArr,
+	setGameArr,
+}) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
-	let player = match.player1._id === user._id ? "player1" : "player2"
-	// const [gameArr, setGameArr] = React.useState(array)
+	let player = match.player1 === user._id ? "player1" : "player2"
 	const [turn, setTurn] = React.useState(player === match.turn)
 	const socket = io(process.env.REACT_APP_SERVER)
 
 	useEffect(() => {
 		;(async () => {
 			try {
-				const { data } = await axios.get(`/match/details/${matchId}`)
+				const { data } = await axios.get(`/tournamentmatch/${matchId}`)
 				let player1Moves = data.match.player1Moves
 				let player2Moves = data.match.player2Moves
 				if (data.match.winner) {
@@ -66,10 +70,14 @@ function GameBoard({ match, update, setUpdate, setWinner, gameArr, setGameArr })
 			})
 			return
 		}
-		const { data } = await axios.patch("/match/move/" + matchId, {
-			player: player,
-			move: i,
-		})
+		const { data } = await axios.patch(
+			"/tournamentmatch/move/" + matchId,
+			{
+				player: player,
+				move: i,
+			}
+		)
+		console.log(data)
 		socket.emit("makeMove", { match: data.match, user: user._id })
 		if (data.match.winner) {
 			setWinner(data.match.winner.userName)
