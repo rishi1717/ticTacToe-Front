@@ -16,7 +16,8 @@ function GameBoard({
 }) {
 	const user = useSelector((state) => state.user.user)
 	let matchId = match._id
-	let player = match.player1 === user._id ? "player1" : "player2"
+	let player = match.player1._id === user._id ? "player1" : "player2"
+	console.log(player, " = ", match.turn)
 	const [turn, setTurn] = React.useState(player === match.turn)
 	const socket = io(process.env.REACT_APP_SERVER)
 
@@ -70,13 +71,10 @@ function GameBoard({
 			})
 			return
 		}
-		const { data } = await axios.patch(
-			"/tournamentmatch/move/" + matchId,
-			{
-				player: player,
-				move: i,
-			}
-		)
+		const { data } = await axios.patch("/tournamentmatch/move/" + matchId, {
+			player: player,
+			move: i,
+		})
 		console.log(data)
 		socket.emit("makeMove", { match: data.match, user: user._id })
 		if (data.match.winner) {

@@ -29,7 +29,7 @@ function TournamentGame(props) {
 			try {
 				const { data } = await axios.get("/tournamentmatch/" + match._id)
 				if (!data.match) {
-					navigate("/tournament")
+					navigate(-1)
 				}
 				setMatchData(data.match)
 				setMessages(data.match.messages)
@@ -71,7 +71,6 @@ function TournamentGame(props) {
 
 			socket.on("moveMade", (data) => {
 				setUpdate(!update)
-				console.log(data)
 			})
 		}
 		return () => {
@@ -138,7 +137,7 @@ function TournamentGame(props) {
 											marginTop: "1rem",
 										}}
 										onClick={() => {
-											navigate("/tournament")
+											navigate(-1)
 											setLoaded(false)
 											setMatchData({})
 											setWinner("")
